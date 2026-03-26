@@ -25,7 +25,7 @@ function AsciiCard({ item }) {
   });
 
   return (
-    <div className="relative group w-full md:w-[calc(50%-40px)] lg:w-[calc(33.333%-40px)] h-[300px]">
+    <div className="relative group w-full md:w-[calc(50%-40px)] lg:w-[calc(33.333%-40px)] h-[300px] rounded-2xl border border-zinc-700 hover:border-zinc-400 hover:shadow-md hover:shadow-zinc-700/40 flex flex-col">
       <button
         className={`absolute top-3 right-3 px-3 py-1 rounded-xl border text-xs transition-all duration-500 ${
           copied
@@ -36,18 +36,30 @@ function AsciiCard({ item }) {
       >
         {copied ? '✓ Copied' : 'Copy'}
       </button>
-
       <div
         ref={containerRef}
-        className="h-full w-full flex items-center justify-center overflow-hidden rounded-2xl border border-zinc-700 group-hover:border-zinc-400 group-hover:shadow-md group-hover:shadow-zinc-700/40"
+        className="flex-1 mt-10 mb-4 w-full flex items-center justify-center overflow-hidden"
       >
         <pre
           ref={preRef}
           style={{ transform: `scale(${scale})` }}
-          className="text-zinc-200 text-xs leading-tight whitespace-pre origin-center scale-70 sm:scale-80"
+          className="text-zinc-200 text-xs leading-tight whitespace-pre origin-center"
         >
           {item.art.join('\n')}
         </pre>
+      </div>
+
+      <div className="p-3 border-t border-zinc-600">
+        <ul className="flex flex-wrap gap-2">
+          {item.tags.map((tag) => (
+            <li
+              key={tag}
+              className="text-xs text-zinc-400 bg-zinc-800 border border-zinc-600 px-2 py-1 rounded-2xl"
+            >
+              {tag}
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
