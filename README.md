@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <a href="https://fetchctl.vercel.app">Live Demo</a> •
+  <a href="https://fetch-ctl.vercel.app/">Live Demo</a> •
   <a href="#">Report Bug</a> •
   <a href="#">Request Feature</a>
 </p>
