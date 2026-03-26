@@ -1,9 +1,8 @@
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/c47d1810-d621-41a7-bb40-1b1bf716b9a5" width="560" />
+  <img src="https://github.com/user-attachments/assets/2c8fcb8d-207c-4352-beb9-469c8c4d8b01" width="200" />
 </p>
 
 <h1 align="center">FetchCtl</h1>
-
 <p align="center">
   Build, customize and share fastfetch configs - presets, ascii art, community and more.
 </p>
@@ -13,6 +12,7 @@
   <a href="#">Report Bug</a> •
   <a href="#">Request Feature</a>
 </p>
+![Uploading image.png…]()
 
 ---
 
