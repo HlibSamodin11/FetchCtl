@@ -11,7 +11,7 @@ function AsciiCard({ item }) {
   const handleCopy = () => {
     navigator.clipboard.writeText(item.art.join('\n'));
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => setCopied(false), 1500);
   };
 
   useEffect(() => {

@@ -1,16 +1,78 @@
-# React + Vite
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/c47d1810-d621-41a7-bb40-1b1bf716b9a5" width="560" />
+</p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<h1 align="center">FetchCtl</h1>
 
-Currently, two official plugins are available:
+<p align="center">
+  Build, customize and share fastfetch configs - presets, ascii art, community and more.
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+<p align="center">
+  <a href="https://fetchctl.vercel.app">Live Demo</a> •
+  <a href="#">Report Bug</a> •
+  <a href="#">Request Feature</a>
+</p>
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### UI Showcase
 
-## Expanding the ESLint configuration
+> A🚧 UI Showcase coming soon
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+### More Demos
+
+> 🚧 Demos coming soon
+
+---
+
+
+### Features
+> 🚧 Features coming soon
+---
+
+### Tech Stack
+
+- React + Vite
+- Tailwind CSS
+- Deployed on Vercel
+
+---
+
+### Getting Started
+
+````git clone https://github.com/HlibSamodin11/FetchCtl
+cd FetchCtl
+npm install
+npm run dev
+````
+````Open http://localhost:5173 in your browser.````
+
+---
+
+### Contributing
+
+Pull requests are welcome. For major changes open an issue first.
+
+---
+
+<p align="center">
+  Made with ❤️ by
+</p>
+
+<p align="center">
+  <a href="https://github.com/HlibSamodin11">
+    <img src="https://github.com/HlibSamodin11.png" width="50" style="border-radius:50%" />
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://github.com/MstyslavSoroka">
+    <img src="https://github.com/MstyslavSoroka.png" width="50" style="border-radius:50%" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/HlibSamodin11">Hlib Samodin</a>
+  &nbsp;•&nbsp;
+  <a href="https://github.com/MstyslavSoroka">Mstyslav Soroka</a>
+</p>
