@@ -12,8 +12,6 @@
   <a href="#">Report Bug</a> •
   <a href="#">Request Feature</a>
 </p>
-![Uploading image.png…]()
-
 ---
 
 ### UI Showcase
