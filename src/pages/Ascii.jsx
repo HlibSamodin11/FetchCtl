@@ -67,11 +67,13 @@ function AsciiCard({ item }) {
 
 function Ascii() {
   return (
-    <div className="bg-zinc-900 flex flex-wrap gap-10 p-10 justify-center">
-      {asciiFile.ascii.map((item) => (
-        <AsciiCard key={item.id} item={item} />
-      ))}
-    </div>
+    <section className="bg-zinc-900 flex justify-center">
+      <div className="container  flex flex-wrap gap-10 justify-center">
+        {asciiFile.ascii.map((item) => (
+          <AsciiCard key={item.id} item={item} />
+        ))}
+      </div>
+    </section>
   );
 }
 
