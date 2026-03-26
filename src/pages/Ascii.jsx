@@ -22,7 +22,7 @@ function AsciiCard({ item }) {
     const scaleY = container.clientHeight / pre.scrollHeight;
 
     setScale(Math.min(scaleX, scaleY));
-  }, [item]);
+  });
 
   return (
     <div className="relative group w-full md:w-[calc(50%-40px)] lg:w-[calc(33.333%-40px)] h-[300px]">
