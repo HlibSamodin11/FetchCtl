@@ -1,22 +1,22 @@
 import { useState, useRef } from 'react';
 
-// images , ya hotel svg uzat no u menya ne poluchilos :( 
-const DARK_LOGO = "/dark-logo.png";
-const LIGHT_LOGO = "/light-logo.png";
-const DARK_GITHUB = "/dark-github.png";
-const LIGHT_GITHUB = "/light-github.png";
+// images , ya hotel svg uzat no u menya ne poluchilos :(
+const DARK_LOGO = '/dark-logo.png';
+const LIGHT_LOGO = '/light-logo.png';
+const DARK_GITHUB = '/dark-github.png';
+const LIGHT_GITHUB = '/light-github.png';
 
 // links
 const links = [
-  { title: "title1", items: ["text1", "text1", "text1"] },
-  { title: "title2", items: ["text2", "text2", "text2"] },
-  { title: "title3", items: ["text3", "text3", "text3"] },
-  { title: "title4", items: ["text4", "text4", "text4"] },
+  { title: 'title1', items: ['text1', 'text1', 'text1'] },
+  { title: 'title2', items: ['text2', 'text2', 'text2'] },
+  { title: 'title3', items: ['text3', 'text3', 'text3'] },
+  { title: 'title4', items: ['text4', 'text4', 'text4'] },
 ];
 
 // tux
 const tux = ` 
-              ⣀⣠⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⣿⣿⣿⣿⣿⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣽⢫⡌⣿⣿⢉⣤⠹⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -36,40 +36,49 @@ const tux = `
 ⠀⠀⠀⠀⠀⠉⠙⠊⠿⠛⠁⠀⠀⠀⠀⠀⠀⠀⠈⠻⠷⠿⠋⠀⠀⠀⠀⠀⠀`;
 
 function Footer() {
-  const [theme, setTheme] = useState("dark"); // mistik boi here is the change of theme
-  const isLight = theme === "light";
+  const [theme, setTheme] = useState('dark'); // mistik boi here is the change of theme
+  const isLight = theme === 'light';
 
   // Classes for the themes (misitik tut esli chto ono miniatetsya)
-  const bgColor = isLight ? "bg-white" : "bg-[#0d0d0d]";
-  const borderColor = isLight ? "border-[#ccc]" : "border-[#2e2e2e]";
-  const mainTextColor = isLight ? "text-black" : "text-white";
+  const bgColor = isLight ? 'bg-white' : 'bg-[#0d0d0d]';
+  const borderColor = isLight ? 'border-[#ccc]' : 'border-[#2e2e2e]';
+  const mainTextColor = isLight ? 'text-black' : 'text-white';
   const logo = isLight ? LIGHT_LOGO : DARK_LOGO;
   const github = isLight ? LIGHT_GITHUB : DARK_GITHUB;
-  const watermarkColor = isLight ? "text-[#7D7D7D]/10" : "text-white/5";
-  const tuxColor = isLight ? "text-[rgba(0,0,0,1)]" : "text-[#8c8c8c]";
+  const watermarkColor = isLight ? 'text-[#7D7D7D]/10' : 'text-white/5';
+  const tuxColor = isLight ? 'text-[rgba(0,0,0,1)]' : 'text-[#8c8c8c]';
 
   return (
-    <footer className={`relative w-full ${bgColor} border-t ${borderColor} pt-16 pb-8 overflow-hidden`}>
-
+    <footer
+      className={`relative w-full ${bgColor} border-t ${borderColor} pt-16 pb-8 overflow-hidden`}
+    >
       {/* watermark */}
-      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-[120px] md:text-[192px] tracking-wider ${watermarkColor} whitespace-nowrap pointer-events-none select-none z-0`}>
+      <div
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-[120px] md:text-[192px] tracking-wider ${watermarkColor} whitespace-nowrap pointer-events-none select-none z-0`}
+      >
         FetchCtl
       </div>
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         <div className="flex flex-col lg:flex-row justify-between gap-12 lg:gap-24">
-
           {/* Brand section */}
           <div className="flex-1 max-w-sm">
             <div className="flex items-center gap-3">
-              <img src={logo} alt="FetchCtl logo" className="w-7 h-7 rounded-full" />
-              <span className={`font-bold italic text-lg tracking-tight ${mainTextColor}`}>
+              <img
+                src={logo}
+                alt="FetchCtl logo"
+                className="w-7 h-7 rounded-full"
+              />
+              <span
+                className={`font-bold italic text-lg tracking-tight ${mainTextColor}`}
+              >
                 FetchCtl
               </span>
             </div>
 
             <p className="mt-6 text-sm leading-relaxed text-[#8c8c8c]">
-              Generate, customize and share your terminal configs visually. Or just stare at the tux, whatever.
+              Generate, customize and share your terminal configs visually. Or
+              just stare at the tux, whatever.
             </p>
 
             <a
@@ -86,13 +95,15 @@ function Footer() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 md:gap-12 lg:gap-20">
             {links.map((section, i) => (
               <div key={i}>
-                <h4 className={`font-bold text-sm mb-6 ${mainTextColor}`}>{section.title}</h4>
+                <h4 className={`font-bold text-sm mb-6 ${mainTextColor}`}>
+                  {section.title}
+                </h4>
                 <ul className="space-y-4">
                   {section.items.map((item, j) => (
                     <li key={j}>
                       <a
                         href="#"
-                        className={`text-[#8c8c8c] text-sm hover:${isLight ? "text-black" : "text-white"} transition`}
+                        className={`text-[#8c8c8c] text-sm hover:${isLight ? 'text-black' : 'text-white'} transition`}
                       >
                         {item}
                       </a>
@@ -105,18 +116,38 @@ function Footer() {
         </div>
 
         {/* tux */}
-        <pre className={`hidden xl:block absolute top-[45%] right-0 transform translate-y-[15%] ${tuxColor} text-[6px] leading-[8px] font-mono opacity-40 pointer-events-none z-0 right-[-25%]`}>
+        <pre
+          className={`hidden xl:block absolute top-[45%] right-0 transform translate-y-[15%] ${tuxColor} text-[6px] leading-[8px] font-mono opacity-40 pointer-events-none z-0 right-[-25%]`}
+        >
           {tux}
         </pre>
 
         {/* bottom copyritght  */}
-        <div className={`mt-16 pt-8 border-t ${borderColor} flex flex-col md:flex-row justify-between items-center gap-4`}>
-          <p className={`text-xs ${mainTextColor}`}>© 2026 FetchCtl. All rights reserved.</p>
+        <div
+          className={`mt-16 pt-8 border-t ${borderColor} flex flex-col md:flex-row justify-between items-center gap-4`}
+        >
           <p className={`text-xs ${mainTextColor}`}>
-            Made by{" "}
-            <a href="https://github.com/HlibSamodin11" target="_blank" rel="noreferrer" className={`${mainTextColor} hover:text-gray-400 transition`}>HlibSamodin</a>
-            {" & "}
-            <a href="https://github.com/MstyslavSoroka" target="_blank" rel="noreferrer" className={`${mainTextColor} hover:text-gray-400 transition`}>MstyslavSoroka</a>
+            © 2026 FetchCtl. All rights reserved.
+          </p>
+          <p className={`text-xs ${mainTextColor}`}>
+            Made by{' '}
+            <a
+              href="https://github.com/HlibSamodin11"
+              target="_blank"
+              rel="noreferrer"
+              className={`${mainTextColor} hover:text-gray-400 transition`}
+            >
+              HlibSamodin
+            </a>
+            {' & '}
+            <a
+              href="https://github.com/MstyslavSoroka"
+              target="_blank"
+              rel="noreferrer"
+              className={`${mainTextColor} hover:text-gray-400 transition`}
+            >
+              MstyslavSoroka
+            </a>
           </p>
         </div>
       </div>
