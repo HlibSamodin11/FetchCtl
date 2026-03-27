@@ -1,145 +1,125 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
-const LOGO_URL = "/logo.png";
-const GITHUB_ICON_URL = "/github.png";
+// images , ya hotel svg uzat no u menya ne poluchilos :( 
+const DARK_LOGO = "/dark-logo.png";
+const LIGHT_LOGO = "/light-logo.png";
+const DARK_GITHUB = "/dark-github.png";
+const LIGHT_GITHUB = "/light-github.png";
 
-const footerLinks = [
-  { title: "title", items: ["soon", "soon", "soon"] },
-  { title: "title", items: ["soon", "soon", "soon"] },
-  { title: "title", items: ["soon", "soon", "soon"] },
-  { title: "title", items: ["soon", "soon", "soon"] },
+// links
+const links = [
+  { title: "title1", items: ["text1", "text1", "text1"] },
+  { title: "title2", items: ["text2", "text2", "text2"] },
+  { title: "title3", items: ["text3", "text3", "text3"] },
+  { title: "title4", items: ["text4", "text4", "text4"] },
 ];
 
 // tux
-const tuxAscii = [
-  "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⣿⣿⣿⣿⣿⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⠀⠀⠀⣽⢫⡌⣿⣿⢉⣤⠹⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣜⠗⠉⠙⠘⠻⢡⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣥⡀⠀⢀⡠⣐⣸⣿⡿⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⠇⠉⠒⠶⠉⠀⠀⢻⣿⣿⣷⡀⠀⠀⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⠀⣠⣿⠃⠀⠀⠀⠁⠀⠀⠀⠀⢻⣿⣿⣷⡄⠀⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⠀⣼⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢿⣿⣿⣿⣦⠀⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⢠⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣿⣿⣿⡆⠀⠀⠀⠀",
-  "⠀⠀⠀⠀⢀⣾⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⡀⠀⠀⠀",
-  "⠀⠀⠀⢀⣾⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⡇⠀⠀⠀",
-  "⠀⠀⠀⡸⠋⠛⣧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠤⢼⣿⣿⣿⣿⠃⠀⠀⠀",
-  "⡐⠀⠈⠀⠀⠀⠈⢻⣦⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⢿⡿⠿⠃⠀⠀⠀⠀",
-  "⢡⠀⠀⠀⠀⠀⠀⠀⠻⣿⠷⠀⠀⠀⠀⠀⠀⠀⣠⠃⠀⠀⠀⠀⠀⠀⠐⠠⡀",
-  "⡄⠀⠀⠀⠀⠀⠀⠀⠀⠑⣄⠀⠀⠀⠀⣀⣤⣾⣿⠀⠀⠀⠀⠀⠀⠀⣀⡠⠃",
-  "⠒⠠⠤⣀⣄⡀⠀⠀⢀⣰⣿⠿⠿⠿⠿⠿⠿⠿⣿⡄⠀⠀⢀⡠⠔⠉⠀⠀⠀",
-  "⠀⠀⠀⠀⠀⠉⠙⠊⠿⠛⠁⠀⠀⠀⠀⠀⠀⠀⠈⠻⠷⠿⠋⠀⠀⠀⠀⠀⠀",
-];
+const tux = ` 
+              ⣀⣠⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⣿⣿⣿⣿⣿⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⣽⢫⡌⣿⣿⢉⣤⠹⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣜⠗⠉⠙⠘⠻⢡⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣥⡀⠀⢀⡠⣐⣸⣿⡿⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⠇⠉⠒⠶⠉⠀⠀⢻⣿⣿⣷⡀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⣠⣿⠃⠀⠀⠀⠁⠀⠀⠀⠀⢻⣿⣿⣷⡄⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⣼⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢿⣿⣿⣿⣦⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⢠⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣿⣿⣿⡆⠀⠀⠀⠀
+⠀⠀⠀⠀⢀⣾⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⡀⠀⠀⠀
+⠀⠀⠀⢀⣾⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⡇⠀⠀⠀
+⠀⠀⠀⡸⠋⠛⣧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠤⢼⣿⣿⣿⣿⠃⠀⠀⠀
+⡐⠀⠈⠀⠀⠀⠈⢻⣦⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⢿⡿⠿⠃⠀⠀⠀⠀
+⢡⠀⠀⠀⠀⠀⠀⠀⠻⣿⠷⠀⠀⠀⠀⠀⠀⠀⣠⠃⠀⠀⠀⠀⠀⠀⠐⠠⡀
+⡄⠀⠀⠀⠀⠀⠀⠀⠀⠑⣄⠀⠀⠀⠀⣀⣤⣾⣿⠀⠀⠀⠀⠀⠀⠀⣀⡠⠃
+⠒⠠⠤⣀⣄⡀⠀⠀⢀⣰⣿⠿⠿⠿⠿⠿⠿⠿⣿⡄⠀⠀⢀⡠⠔⠉⠀⠀⠀
+⠀⠀⠀⠀⠀⠉⠙⠊⠿⠛⠁⠀⠀⠀⠀⠀⠀⠀⠈⠻⠷⠿⠋⠀⠀⠀⠀⠀⠀`;
 
 function Footer() {
-  // in case here not sure if need it 
-  const [hoveredLink, setHoveredLink] = useState(null);
+  const [theme, setTheme] = useState("dark"); // mistik boi here is the change of theme
+  const isLight = theme === "light";
 
-  // this thing calculates the coloubns dont delete it
-  const getColumnPosition = (index) => {
-    const basePosition = 768;
-    const spacing = 208;
-    return basePosition + (index * spacing);
-  };
+  // Classes for the themes (misitik tut esli chto ono miniatetsya)
+  const bgColor = isLight ? "bg-white" : "bg-[#0d0d0d]";
+  const borderColor = isLight ? "border-[#ccc]" : "border-[#2e2e2e]";
+  const mainTextColor = isLight ? "text-black" : "text-white";
+  const logo = isLight ? LIGHT_LOGO : DARK_LOGO;
+  const github = isLight ? LIGHT_GITHUB : DARK_GITHUB;
+  const watermarkColor = isLight ? "text-[#7D7D7D]/10" : "text-white/5";
+  const tuxColor = isLight ? "text-[rgba(0,0,0,1)]" : "text-[#8c8c8c]";
 
   return (
-    <footer className="relative w-full bg-[#0d0d0d] border-t border-[#2e2e2e] overflow-hidden h-[364px]">
+    <footer className={`relative w-full ${bgColor} border-t ${borderColor} pt-16 pb-8 overflow-hidden`}>
 
-      {/* Big bg text*/}
-      <div className="absolute top-0 left-0 right-0 h-[160px] overflow-hidden pointer-events-none select-none">
-        <div className="absolute top-[80px] left-[568px] -translate-y-1/2 font-bold text-[192px] tracking-[2px] text-[rgba(242,242,242,0.05)] leading-[192px] whitespace-nowrap">
-          FetchCtl
-        </div>
+      {/* watermark */}
+      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-[120px] md:text-[192px] tracking-wider ${watermarkColor} whitespace-nowrap pointer-events-none select-none z-0`}>
+        FetchCtl
       </div>
 
-      {/* Tux ASCII */}
-      <div className="absolute top-[100px] right-[170px] text-[#8c8c8c] text-[7px] leading-[10px] font-mono pointer-events-none select-none">
-        {tuxAscii.map((line, idx) => (
-          <div key={idx}>{line}</div>
-        ))}
-      </div>
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+        <div className="flex flex-col lg:flex-row justify-between gap-12 lg:gap-24">
 
-      {/* Logo and description section */}
-      <div className="absolute left-[153px] top-[113px]">
-        <div className="flex items-center gap-[9px]">
-          <img src={LOGO_URL} alt="FetchCtl logo" className="w-[28px] h-[28px] rounded-full" />
-          <span className="font-bold italic text-[#f2f2f2] text-[17.6px] tracking-[-0.44px]">
-            FetchCtl
-          </span>
-        </div>
-        
-        {/* description */}
-        <p className="mt-[37px] text-[14px] leading-[22.75px] text-[#8c8c8c] w-[239px]">
-          Generate, customize and share your terminal configs visually.
-        </p>
-        
-        {/* GitHub link */}
-        <a 
-          href="https://github.com/HlibSamodin11/FetchCtl" 
-          target="_blank" 
-          className="inline-block mt-[27px] hover:opacity-70 transition"
-        >
-          <img src={GITHUB_ICON_URL} alt="GitHub" className="w-[25px] h-[25px]" />
-        </a>
-      </div>
+          {/* Brand section */}
+          <div className="flex-1 max-w-sm">
+            <div className="flex items-center gap-3">
+              <img src={logo} alt="FetchCtl logo" className="w-7 h-7 rounded-full" />
+              <span className={`font-bold italic text-lg tracking-tight ${mainTextColor}`}>
+                FetchCtl
+              </span>
+            </div>
 
-      {/* Footer link columns mistik here i used map instead of hardcoding each one */}
-      {footerLinks.map((section, sectionIndex) => {
-        const leftPosition = getColumnPosition(sectionIndex);
-        
-        return (
-          <div 
-            key={sectionIndex} 
-            className="absolute top-[113px]" 
-            style={{ left: leftPosition + 'px' }}
-          >
-            <h4 className="text-[#f2f2f2] font-bold text-[14px] leading-[20px]">
-              {section.title}
-            </h4>
-            <ul className="mt-[36px] space-y-[22px]">
-              {section.items.map((linkItem, i) => (
-                <li key={i}>
-                  <a 
-                    href="#" 
-                    className="text-[#8c8c8c] text-[14px] leading-[20px] hover:text-white transition"
-                    onMouseEnter={() => setHoveredLink(`${sectionIndex}-${i}`)}
-                    onMouseLeave={() => setHoveredLink(null)}
-                  >
-                    {linkItem}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <p className="mt-6 text-sm leading-relaxed text-[#8c8c8c]">
+              Generate, customize and share your terminal configs visually. Or just stare at the tux, whatever.
+            </p>
+
+            <a
+              href="https://github.com/HlibSamodin11/FetchCtl"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-block mt-6 hover:opacity-70 transition"
+            >
+              <img src={github} alt="GitHub" className="w-6 h-6" />
+            </a>
           </div>
-        );
-      })}
-      
-      {/* copyright and links  */}
-      <div className="absolute left-[144px] right-[144px] top-[299px] border-t border-[#2e2e2e] pt-[18px] flex justify-between items-center">
-        <p className="text-[#8c8c8c] text-[12px] leading-[16px]">
-          © 2026 FetchCtl. All rights reserved.
-        </p>
-        <p className="text-[#8c8c8c] text-[12px] flex gap-1">
-          Made by{" "}
-          <a 
-            href="https://github.com/HlibSamodin11" 
-            target="_blank" 
-            className="text-white hover:text-gray-400 transition"
-          >
-            HlibSamodin
-          </a>
-          {" "}&{" "}
-          <a 
-            href="https://github.com/MstyslavSoroka" 
-            target="_blank" 
-            className="text-white hover:text-gray-400 transition"
-          >
-            MstyslavSoroka
-          </a>
-        </p>
-      </div>
 
+          {/* grid for links */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 md:gap-12 lg:gap-20">
+            {links.map((section, i) => (
+              <div key={i}>
+                <h4 className={`font-bold text-sm mb-6 ${mainTextColor}`}>{section.title}</h4>
+                <ul className="space-y-4">
+                  {section.items.map((item, j) => (
+                    <li key={j}>
+                      <a
+                        href="#"
+                        className={`text-[#8c8c8c] text-sm hover:${isLight ? "text-black" : "text-white"} transition`}
+                      >
+                        {item}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* tux */}
+        <pre className={`hidden xl:block absolute top-[45%] right-0 transform translate-y-[15%] ${tuxColor} text-[6px] leading-[8px] font-mono opacity-40 pointer-events-none z-0 right-[-25%]`}>
+          {tux}
+        </pre>
+
+        {/* bottom copyritght  */}
+        <div className={`mt-16 pt-8 border-t ${borderColor} flex flex-col md:flex-row justify-between items-center gap-4`}>
+          <p className={`text-xs ${mainTextColor}`}>© 2026 FetchCtl. All rights reserved.</p>
+          <p className={`text-xs ${mainTextColor}`}>
+            Made by{" "}
+            <a href="https://github.com/HlibSamodin11" target="_blank" rel="noreferrer" className={`${mainTextColor} hover:text-gray-400 transition`}>HlibSamodin</a>
+            {" & "}
+            <a href="https://github.com/MstyslavSoroka" target="_blank" rel="noreferrer" className={`${mainTextColor} hover:text-gray-400 transition`}>MstyslavSoroka</a>
+          </p>
+        </div>
+      </div>
     </footer>
   );
 }
