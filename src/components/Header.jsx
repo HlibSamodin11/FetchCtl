@@ -51,7 +51,10 @@ function Header() {
             </span>
           </NavLink>
           <div className="hidden lg:flex lg:absolute rounded-full bg-accent-bg left-[50%] md:-translate-x-1/2 h-[46px] inset-shadow-[inset_0px_0px_10px_0px_rgba(0,0,0,0.1)]">
-            <div ref={containerRef} className="relative flex items-center p-2">
+            <div
+              ref={containerRef}
+              className="relative flex items-center py-2 px-1"
+            >
               <div
                 className="absolute top-1 bottom-1 rounded-full bg-pill-bg shadow-2xl transition-all duration-300 ease-out"
                 style={{
