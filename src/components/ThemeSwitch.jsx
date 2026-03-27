@@ -20,7 +20,7 @@ function ThemeSwitch() {
   return (
     <button
       onClick={toggleTheme}
-      className="bg-button-bg rounded-2xl p-3 border border-button-stroke transition"
+      className="bg-button-bg rounded-2xl p-3 ring transition-all ring-button-stroke group hover:ring-accent-text cursor-pointer"
     >
       <svg className="w-5 h-5">
         <use

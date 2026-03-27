@@ -50,7 +50,7 @@ function Header() {
               FetchCtl
             </span>
           </NavLink>
-          <div className="hidden md:flex md:absolute rounded-full bg-accent-bg left-[50%] md:-translate-x-1/2 h-[46px] inset-shadow-[inset_0px_0px_10px_0px_rgba(0,_0,_0,_0.1)]">
+          <div className="hidden lg:flex lg:absolute rounded-full bg-accent-bg left-[50%] md:-translate-x-1/2 h-[46px] inset-shadow-[inset_0px_0px_10px_0px_rgba(0,0,0,0.1)]">
             <div ref={containerRef} className="relative flex items-center p-2">
               <div
                 className="absolute top-1 bottom-1 rounded-full bg-pill-bg shadow-2xl transition-all duration-300 ease-out"
@@ -79,17 +79,20 @@ function Header() {
             </div>
           </div>
           <div className="flex gap-5">
-            <button className="text-get-started-text bg-get-started-bg px-5 rounded-4xl font-bold flex items-center gap-2">
+            <button className="group text-get-started-text bg-get-started-bg px-5 rounded-4xl font-bold flex items-center gap-2 transition-all hover:bg-transparent hover:ring-1 hover:ring-accent-text hover:text-accent-text hover:cursor-pointer">
               Get Started
               <svg className="w-5 h-5">
-                <use href="/sprite.svg#icon-arrow"></use>
+                <use
+                  href="/sprite.svg#icon-arrow"
+                  className="group-hover:fill-accent-text"
+                ></use>
               </svg>
             </button>
-            <button className="bg-button-bg rounded-2xl p-3 border border-button-stroke">
+            <button className="bg-button-bg rounded-2xl p-3 ring transition-all ring-button-stroke group hover:ring-accent-text cursor-pointer">
               <svg className=" w-5 h-5">
                 <use
                   href="/sprite.svg#icon-search"
-                  className="fill-accent-text"
+                  className="fill-accent-text "
                 ></use>
               </svg>
             </button>
