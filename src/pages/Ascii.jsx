@@ -28,10 +28,10 @@ function AsciiCard({ item }) {
   return (
     <div className="font-jetbrains relative group w-full h-full rounded-2xl border border-reverse/50 hover:border-reverse/70 hover:shadow-md hover:shadow-zinc-700/40 flex flex-col">
       <button
-        className={`absolute top-3 right-3 px-3 py-2 rounded-4xl border text-xs transition-all duration-500 ${
+        className={`absolute top-3 right-3 px-3 py-3 rounded-4xl border text-xs transition-all duration-500 ${
           copied
             ? 'bg-green-500 border-green-500 text-white'
-            : 'bg-accent-bg  hover:border-zinc-400 hover:text-zinc-200'
+            : 'bg-accent-bg  hover:border-accent-text/30'
         }`}
         onClick={handleCopy}
       >
