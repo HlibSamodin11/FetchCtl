@@ -1,34 +1,68 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { supabase } from '../supabaseClient';
 
 export default function GetStarted({ onClose }) {
   const [mode, setMode] = useState('register');
   const [email, setEmail] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const cooldownRef = useRef(false);
 
   async function registerUser(e) {
     e.preventDefault();
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+    if (loading || cooldownRef.current) return;
 
-    if (error) console.error('Registration error:', error);
-    else console.log('User registered:', data.user);
+    cooldownRef.current = true;
+    setLoading(true);
+
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+
+      console.log('User registered:', data.user);
+    } catch (error) {
+      console.error('Registration error:', error);
+    } finally {
+      setLoading(false);
+
+      setTimeout(() => {
+        cooldownRef.current = false;
+      }, 3000);
+    }
   }
 
   async function loginUser(e) {
     e.preventDefault();
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    if (loading || cooldownRef.current) return;
 
-    if (error) console.error('Login error:', error);
-    else console.log('User logged in:', data.user);
+    cooldownRef.current = true;
+    setLoading(true);
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+
+      console.log('User logged in:', data.user);
+    } catch (error) {
+      console.error('Login error:', error);
+    } finally {
+      setLoading(false);
+
+      setTimeout(() => {
+        cooldownRef.current = false;
+      }, 1500);
+    }
   }
 
   return (
@@ -51,6 +85,7 @@ export default function GetStarted({ onClose }) {
               type="email"
               placeholder="email"
               value={email}
+              disabled={loading}
               onChange={(e) => setEmail(e.target.value)}
             />
 
@@ -59,11 +94,16 @@ export default function GetStarted({ onClose }) {
               type="password"
               placeholder="password"
               value={password}
+              disabled={loading}
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <button className="bg-black text-white p-2 rounded" type="submit">
-              Register
+            <button
+              className="bg-black text-white p-2 rounded disabled:opacity-50"
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? 'Loading...' : 'Register'}
             </button>
           </form>
         ) : (
@@ -73,6 +113,7 @@ export default function GetStarted({ onClose }) {
               type="email"
               placeholder="email"
               value={email}
+              disabled={loading}
               onChange={(e) => setEmail(e.target.value)}
             />
 
@@ -81,15 +122,20 @@ export default function GetStarted({ onClose }) {
               type="password"
               placeholder="password"
               value={password}
+              disabled={loading}
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <button className="bg-black text-white p-2 rounded" type="submit">
-              Log in
+            <button
+              className="bg-black text-white p-2 rounded disabled:opacity-50"
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? 'Loading...' : 'Log in'}
             </button>
           </form>
         )}
-        <p className="text-red-400">{errorMsg}</p>
+
         <div className="mt-4 flex flex-col gap-2 text-sm">
           {mode === 'register' ? (
             <button className="underline" onClick={() => setMode('login')}>
