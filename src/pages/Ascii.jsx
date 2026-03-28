@@ -44,20 +44,20 @@ function AsciiCard({ item }) {
         <pre
           ref={preRef}
           style={{ transform: `scale(${scale})` }}
-          className="text-zinc-200 text-xs leading-tight whitespace-pre origin-center font-sans"
+          className="text-accent-text text-xs leading-tight whitespace-pre origin-center font-sans"
         >
           {item.art.join('\n')}
         </pre>
       </div>
 
-      <div className="p-3 border-t border-zinc-600">
+      <div className="p-3">
         <ul className="flex flex-wrap gap-2">
           {item.tags.map((tag) => (
             <li
               key={tag}
-              className="text-xs text-zinc-400 bg-zinc-800 border border-zinc-600 px-2 py-1 rounded-2xl"
+              className="text-xs transition-all text-main-text/80  border border-main-text/50 px-2 py-1 rounded-2xl hover:text-main-text hover:border-main-text"
             >
-              {tag}
+              #{tag}
             </li>
           ))}
         </ul>
