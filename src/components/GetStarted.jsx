@@ -4,6 +4,7 @@ import { supabase } from '../supabaseClient';
 export default function GetStarted({ onClose }) {
   const [mode, setMode] = useState('register');
   const [email, setEmail] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
   const [password, setPassword] = useState('');
 
   async function registerUser(e) {
@@ -88,7 +89,7 @@ export default function GetStarted({ onClose }) {
             </button>
           </form>
         )}
-
+        <p className="text-red-400">{errorMsg}</p>
         <div className="mt-4 flex flex-col gap-2 text-sm">
           {mode === 'register' ? (
             <button className="underline" onClick={() => setMode('login')}>
