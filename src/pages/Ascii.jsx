@@ -43,7 +43,7 @@ function AsciiCard({ item }) {
         <pre
           ref={preRef}
           style={{ transform: `scale(${scale})` }}
-          className="text-zinc-200 text-xs leading-tight whitespace-pre origin-center"
+          className="text-zinc-200 text-xs leading-tight whitespace-pre origin-center font-sans"
         >
           {item.art.join('\n')}
         </pre>
