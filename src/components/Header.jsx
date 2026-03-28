@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import ThemeSwitch from './ThemeSwitch';
+import GetStarted from './GetStarted';
+import User from './User';
 
-function Header() {
+function Header({ user }) {
+  const [showForm, setShowForm] = useState(false);
   const navItems = [
     { label: 'Main', path: '/' },
     { label: 'Builder', path: '/builder' },
@@ -82,15 +85,23 @@ function Header() {
             </div>
           </div>
           <div className="flex gap-5">
-            <button className="group text-get-started-text bg-get-started-bg px-5 rounded-4xl font-bold flex items-center gap-2 transition-all hover:bg-transparent hover:ring-1 hover:ring-accent-text hover:text-accent-text hover:cursor-pointer">
-              Get Started
-              <svg className="w-5 h-5">
-                <use
-                  href="/sprite.svg#icon-arrow"
-                  className="group-hover:fill-accent-text"
-                ></use>
-              </svg>
-            </button>
+            {!user ? (
+              <button
+                className="group text-get-started-text bg-get-started-bg px-5 rounded-4xl font-bold flex items-center gap-2 transition-all hover:bg-transparent hover:ring-1 hover:ring-accent-text hover:text-accent-text hover:cursor-pointer"
+                onClick={() => setShowForm(true)}
+              >
+                Get Started
+                <svg className="w-5 h-5">
+                  <use
+                    href="/sprite.svg#icon-arrow"
+                    className="group-hover:fill-accent-text"
+                  ></use>
+                </svg>
+              </button>
+            ) : (
+              <User user={user} />
+            )}
+
             <button className="bg-button-bg rounded-2xl p-3 ring transition-all ring-button-stroke group hover:ring-accent-text cursor-pointer">
               <svg className=" w-5 h-5">
                 <use
@@ -103,6 +114,7 @@ function Header() {
           </div>
         </div>
       </header>
+      {showForm && <GetStarted onClose={() => setShowForm(false)} />}
     </>
   );
 }
