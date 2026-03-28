@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 
 export default function GetStarted({ onClose }) {
@@ -6,14 +6,22 @@ export default function GetStarted({ onClose }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const cooldownRef = useRef(false);
-
+  useEffect((e) => {
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    });
+  });
   async function registerUser(e) {
     e.preventDefault();
 
     if (loading || cooldownRef.current) return;
 
+    setErrorMsg('');
     cooldownRef.current = true;
     setLoading(true);
 
@@ -28,6 +36,7 @@ export default function GetStarted({ onClose }) {
       console.log('User registered:', data.user);
     } catch (error) {
       console.error('Registration error:', error);
+      setErrorMsg(error.message);
     } finally {
       setLoading(false);
 
@@ -42,6 +51,7 @@ export default function GetStarted({ onClose }) {
 
     if (loading || cooldownRef.current) return;
 
+    setErrorMsg('');
     cooldownRef.current = true;
     setLoading(true);
 
@@ -56,6 +66,7 @@ export default function GetStarted({ onClose }) {
       console.log('User logged in:', data.user);
     } catch (error) {
       console.error('Login error:', error);
+      setErrorMsg(error.message);
     } finally {
       setLoading(false);
 
@@ -66,14 +77,8 @@ export default function GetStarted({ onClose }) {
   }
 
   return (
-    <div
-      className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50"
-      onClick={onClose}
-    >
-      <div
-        className="bg-white p-6 rounded-xl shadow-lg w-80"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
+      <div className="bg-white p-6 rounded-xl shadow-lg w-80">
         <h2 className="text-lg font-semibold mb-4">
           {mode === 'register' ? 'Register' : 'Log in'}
         </h2>
@@ -135,6 +140,8 @@ export default function GetStarted({ onClose }) {
             </button>
           </form>
         )}
+
+        {errorMsg && <p className="mt-3 text-red-600 text-sm">{errorMsg}</p>}
 
         <div className="mt-4 flex flex-col gap-2 text-sm">
           {mode === 'register' ? (
