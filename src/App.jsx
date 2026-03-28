@@ -1,3 +1,9 @@
+import '@fontsource/jetbrains-mono/400';
+import '@fontsource/jetbrains-mono/500';
+import '@fontsource/jetbrains-mono/600';
+import '@fontsource/jetbrains-mono/700';
+import '@fontsource/jetbrains-mono/800';
+
 import { Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { supabase } from './supabaseClient';

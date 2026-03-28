@@ -1,37 +1,10 @@
 import { useRef } from 'react';
 
 const links = [
-  {
-    title: 'Product',
-    items: [
-      { label: 'Builder', path: '/builder' },
-      { label: 'ASCII Library', path: '/ascii' },
-      { label: 'Presets', path: '/' },
-      { label: 'Community', path: '/community' },
-    ],
-  },
-  {
-    title: 'Resources',
-    items: [
-      { label: 'Docs', path: '/' },
-      { label: 'Fastfetch', path: 'https://github.com/fastfetch-cli/fastfetch' },
-      { label: 'Changelog', path: '/' },
-    ],
-  },
-  {
-    title: 'Legal',
-    items: [
-      { label: 'Privacy', path: '/' },
-      { label: 'Terms', path: '/' },
-      { label: 'License', path: 'https://github.com/HlibSamodin11/FetchCtl/blob/main/LICENSE' },
-    ],
-  },
-  {
-    title: 'Connect',
-    items: [
-      { label: 'GitHub', path: 'https://github.com/HlibSamodin11/FetchCtl' },
-    ],
-  },
+  { title: 'title1', items: ['text1', 'text1', 'text1'] },
+  { title: 'title2', items: ['text2', 'text2', 'text2'] },
+  { title: 'title3', items: ['text3', 'text3', 'text3'] },
+  { title: 'title4', items: ['text4', 'text4', 'text4'] },
 ];
 
 const tux = `

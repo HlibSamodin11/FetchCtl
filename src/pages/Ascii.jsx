@@ -26,7 +26,7 @@ function AsciiCard({ item }) {
   });
 
   return (
-    <div className="relative group w-full h-full rounded-2xl border border-zinc-700 hover:border-zinc-400 hover:shadow-md hover:shadow-zinc-700/40 flex flex-col">
+    <div className="font-jetbrains relative group w-full h-full rounded-2xl border border-zinc-700 hover:border-zinc-400 hover:shadow-md hover:shadow-zinc-700/40 flex flex-col">
       <button
         className={`absolute top-3 right-3 px-3 py-1 rounded-xl border text-xs transition-all duration-500 ${
           copied
@@ -51,6 +51,46 @@ function AsciiCard({ item }) {
       </div>
 
       <div className="p-3">
+        <h3 className="text-accent-text ">Title</h3>
+        <p className="text-main-text/50">Description</p>
+        <div className="flex gap-5 py-1  flex-wrap">
+          <p className="flex items-center gap-2 text-reverse/50">
+            <svg className="h-3 w-3">
+              <use
+                href="/sprite.svg#icon-user"
+                className="fill-reverse/50"
+              ></use>
+            </svg>
+            Creator
+          </p>
+          <p className="flex items-center gap-2 text-reverse/50">
+            <svg className="h-3 w-3">
+              <use
+                href="/sprite.svg#icon-heart"
+                className="fill-[#E85555] "
+              ></use>
+            </svg>
+            67
+          </p>
+          <p className="flex items-center gap-2 text-reverse/50">
+            <svg className="h-4 w-4">
+              <use
+                href="/sprite.svg#icon-eye "
+                className="fill-reverse/50"
+              ></use>
+            </svg>
+            Creator
+          </p>
+          <p className="flex items-center gap-2 text-reverse/50">
+            <svg className="h-3 w-3">
+              <use
+                href="/sprite.svg#icon-clock"
+                className="fill-reverse/50"
+              ></use>
+            </svg>
+            Creator
+          </p>
+        </div>
         <ul className="flex flex-wrap gap-2">
           {item.tags.map((tag) => (
             <li
