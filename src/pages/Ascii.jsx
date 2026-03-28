@@ -15,6 +15,7 @@ function AsciiCard({ item }) {
   };
 
   useEffect(() => {
+    // sclaes ascii properly on reload
     const pre = preRef.current;
     const container = containerRef.current;
 
@@ -25,7 +26,7 @@ function AsciiCard({ item }) {
   });
 
   return (
-    <div className="relative group w-full md:w-[calc(50%-40px)] lg:w-[calc(33.333%-40px)] h-[300px] rounded-2xl border border-zinc-700 hover:border-zinc-400 hover:shadow-md hover:shadow-zinc-700/40 flex flex-col">
+    <div className="relative group w-full h-full rounded-2xl border border-zinc-700 hover:border-zinc-400 hover:shadow-md hover:shadow-zinc-700/40 flex flex-col">
       <button
         className={`absolute top-3 right-3 px-3 py-1 rounded-xl border text-xs transition-all duration-500 ${
           copied
@@ -66,15 +67,38 @@ function AsciiCard({ item }) {
 }
 
 function Ascii() {
+  const data = asciiFile.ascii;
+
   return (
-    <section className="bg-zinc-900 flex justify-center">
-      <div className="container  flex flex-wrap gap-10 justify-center">
-        {asciiFile.ascii.map((item) => (
-          <AsciiCard key={item.id} item={item} />
-        ))}
+    <section className="bg-bg py-20 flex justify-center  px-6 md:px-12">
+      <div className="container grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-6">
+        {data.map((item, i) => {
+          // Check which group of 3 it is rn
+          const groupIndex = Math.floor(i / 3);
+
+          // true if every second group
+          const reversGroup = groupIndex % 2 === 1;
+
+          // Check what number in group current item is
+          const numInGroup = i % 3;
+
+          //reverses the group
+          const posInGroup = reversGroup ? 1 - numInGroup : numInGroup;
+
+          // sets the big boy
+          const bigBoy = posInGroup === 0;
+
+          return (
+            <div
+              key={item.id}
+              className={bigBoy ? 'lg:col-span-2 lg:row-span-2' : ''}
+            >
+              <AsciiCard item={item} />
+            </div>
+          );
+        })}
       </div>
     </section>
   );
 }
-
 export default Ascii;

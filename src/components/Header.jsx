@@ -40,7 +40,7 @@ function Header({ user }) {
 
   return (
     <>
-      <header className="bg-bg flex justify-center py-5 transition-all">
+      <header className="bg-bg flex justify-center py-5 px-6 md:px-12 transition-all">
         <div className="container flex items-center justify-between">
           <NavLink to={'/'} className="flex items-center gap-3">
             <div className={`rounded-full border`}>
