@@ -26,7 +26,7 @@ function AsciiCard({ item }) {
   });
 
   return (
-    <div className="font-jetbrains relative group w-full h-full rounded-2xl border border-zinc-700 hover:border-zinc-400 hover:shadow-md hover:shadow-zinc-700/40 flex flex-col">
+    <div className="font-jetbrains relative group w-full h-full rounded-2xl border border-reverse/50 hover:border-reverse/70 hover:shadow-md hover:shadow-zinc-700/40 flex flex-col">
       <button
         className={`absolute top-3 right-3 px-3 py-1 rounded-xl border text-xs transition-all duration-500 ${
           copied
@@ -35,7 +35,13 @@ function AsciiCard({ item }) {
         }`}
         onClick={handleCopy}
       >
-        {copied ? '✓ Copied' : 'Copy'}
+        {copied ? (
+          '✓'
+        ) : (
+          <svg>
+            <use href="/sprite.svg#icon-copy"></use>
+          </svg>
+        )}
       </button>
       <div
         ref={containerRef}
@@ -44,7 +50,7 @@ function AsciiCard({ item }) {
         <pre
           ref={preRef}
           style={{ transform: `scale(${scale})` }}
-          className="text-accent-text text-xs leading-tight whitespace-pre origin-center font-sans"
+          className="text-accent-text text-xs leading-tight scale-80 whitespace-pre origin-center font-sans"
         >
           {item.art.join('\n')}
         </pre>
