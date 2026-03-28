@@ -93,7 +93,7 @@ function AsciiCard({ item }) {
                 className="fill-reverse/50"
               ></use>
             </svg>
-            Creator
+            1444
           </p>
           <p className="flex items-center gap-2 text-reverse/50">
             <svg className="h-3 w-3">
@@ -102,7 +102,7 @@ function AsciiCard({ item }) {
                 className="fill-reverse/50"
               ></use>
             </svg>
-            Creator
+            3 days ago
           </p>
         </div>
         <ul className="flex flex-wrap gap-2">
