@@ -108,6 +108,14 @@ function Footer() {
           <p className="text-xs text-accent-text">
             © 2026 FetchCtl. All rights reserved.
           </p>
+          <a
+            href="mailto:fetchcl@gmail.com"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-main-text transition"
+          >
+            <p className="text-xs text-accent-text">fetchcl@gmail.com</p>
+          </a>
 
           <p className="text-xs text-accent-text">
             Made by{' '}

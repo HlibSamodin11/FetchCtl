@@ -9,8 +9,8 @@
 
 <p align="center">
   <a href="https://fetch-ctl.vercel.app/">Live Demo</a> •
-  <a href="#">Report Bug</a> •
-  <a href="#">Request Feature</a>
+  <a href="mailto:fetchcl@gmail.com">Report Bug</a> •
+  <a href="mailto:fetchcl@gmail.com">Request Feature</a>
 </p>
 
 
