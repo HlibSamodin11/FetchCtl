@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { supabase } from '../supabaseClient';
 
-function User({ user }) {
+function User({ user, from }) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -21,7 +21,10 @@ function User({ user }) {
   }, []);
 
   return (
-    <div className="relative inline-block" ref={dropdownRef}>
+    <div
+      className={`hidden ${from === 'header' ? 'lg:inline-block' : 'inline-block'} relative`}
+      ref={dropdownRef}
+    >
       <button
         onClick={() => setOpen((prev) => !prev)}
         className="bg-button-bg rounded-2xl p-3 ring transition-all ring-button-stroke hover:ring-accent-text"

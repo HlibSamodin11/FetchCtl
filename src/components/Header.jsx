@@ -3,6 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import ThemeSwitch from './ThemeSwitch';
 import GetStarted from './GetStarted';
 import User from './User';
+import SideMenu from './SideMenu';
 
 function Header({ user }) {
   const [showForm, setShowForm] = useState(false);
@@ -17,6 +18,8 @@ function Header({ user }) {
 
   const [active, setActive] = useState(0);
   const [pillStyle, setPillStyle] = useState({ left: 0, width: 0 });
+
+  const [menuShown, setMenuShown] = useState(false);
 
   const containerRef = useRef(null);
   const buttonsRef = useRef([]);
@@ -87,7 +90,7 @@ function Header({ user }) {
           <div className="flex gap-5">
             {!user ? (
               <button
-                className="group text-get-started-text bg-get-started-bg px-5 rounded-4xl font-bold flex items-center gap-2 transition-all hover:bg-transparent hover:ring-1 hover:ring-accent-text hover:text-accent-text hover:cursor-pointer"
+                className="hidden lg:flex group text-get-started-text bg-get-started-bg px-5 rounded-4xl font-bold  items-center gap-2 transition-all hover:bg-transparent hover:ring-1 hover:ring-accent-text hover:text-accent-text hover:cursor-pointer"
                 onClick={() => setShowForm(true)}
               >
                 Get Started
@@ -99,7 +102,7 @@ function Header({ user }) {
                 </svg>
               </button>
             ) : (
-              <User user={user} />
+              <User user={user} from={'header'} />
             )}
 
             <button className="bg-button-bg rounded-2xl p-3 ring transition-all ring-button-stroke group hover:ring-accent-text cursor-pointer">
@@ -110,11 +113,25 @@ function Header({ user }) {
                 ></use>
               </svg>
             </button>
-            <ThemeSwitch />
+            <ThemeSwitch from={'header'} />
+            <button
+              className="bg-button-bg lg:hidden rounded-2xl p-3 ring transition-all ring-button-stroke group hover:ring-accent-text cursor-pointer"
+              onClick={() => {
+                setMenuShown(true);
+              }}
+            >
+              <svg className=" w-5 h-5">
+                <use
+                  href="/sprite.svg#icon-menu"
+                  className="fill-accent-text "
+                ></use>
+              </svg>
+            </button>
           </div>
         </div>
       </header>
       {showForm && <GetStarted onClose={() => setShowForm(false)} />}
+      <SideMenu shown={menuShown} setShown={setMenuShown} user={user} />
     </>
   );
 }

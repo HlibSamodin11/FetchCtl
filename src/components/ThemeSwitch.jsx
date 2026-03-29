@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-function ThemeSwitch() {
+function ThemeSwitch({ from }) {
   const [theme, setTheme] = useState('dark');
 
   useEffect(() => {
@@ -20,7 +20,7 @@ function ThemeSwitch() {
   return (
     <button
       onClick={toggleTheme}
-      className="bg-button-bg rounded-2xl p-3 ring transition-all ring-button-stroke group hover:ring-accent-text cursor-pointer"
+      className={`hidden ${from === 'header' ? 'lg:inline-block' : 'inline-block'} bg-button-bg rounded-2xl p-3 ring transition-all ring-button-stroke group hover:ring-accent-text cursor-pointer `}
     >
       <svg className="w-5 h-5">
         <use
