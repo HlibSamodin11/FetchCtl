@@ -65,8 +65,8 @@ function AsciiCard({ item }) {
       </div>
 
       <div className="p-3">
-        <h3 className="text-accent-text ">Title</h3>
-        <p className="text-main-text/50">Description</p>
+        <h3 className="text-accent-text ">{item.name}</h3>
+        <p className="text-main-text/50">{item.description}</p>
         <div className="flex gap-5 py-1  flex-wrap">
           <p className="flex items-center gap-2 text-reverse/50">
             <svg className="h-3 w-3">
@@ -75,7 +75,7 @@ function AsciiCard({ item }) {
                 className="fill-reverse/50"
               ></use>
             </svg>
-            Creator
+            FetchCtl (found on internet)
           </p>
           <p className="flex items-center gap-2 text-reverse/50">
             <svg className="h-3 w-3">
