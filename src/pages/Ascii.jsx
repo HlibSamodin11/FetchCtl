@@ -1,12 +1,57 @@
 import { useState, useRef, useEffect } from 'react';
+import { supabase } from '../supabaseClient';
 import asciiFile from '../assets/ascii.json';
 import AsciiFilters from '../components/AsciiFilters';
 
 function AsciiCard({ item }) {
   const [copied, setCopied] = useState(false);
   const [scale, setScale] = useState(1);
+  const [views, setViews] = useState(null);
   const preRef = useRef(null);
   const boxRef = useRef(null);
+
+  // only tick the view counter once the card is actually on screen
+  useEffect(() => {
+    const box = boxRef.current;
+    if (!box) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      observer.disconnect();
+
+      supabase.rpc('count_view', { art: item.id }).then(() => {
+        supabase
+          .from('art_views')
+          .select('views')
+          .eq('art_id', item.id)
+          .single()
+          .then(({ data }) => {
+            if (data) setViews(data.views);
+          });
+      });
+    }, { threshold: 0.5 });
+
+    observer.observe(box);
+    return () => observer.disconnect();
+  }, [item.id]);
+
+  // scale the art down to fit its container
+  useEffect(() => {
+    const pre = preRef.current;
+    const box = boxRef.current;
+    if (!pre || !box) return;
+
+    const recalc = () => {
+      const scaleX = box.clientWidth / pre.scrollWidth;
+      const scaleY = box.clientHeight / pre.scrollHeight;
+      setScale(Math.min(scaleX, scaleY, 1));
+    };
+
+    recalc();
+    const ro = new ResizeObserver(recalc);
+    ro.observe(box);
+    return () => ro.disconnect();
+  }, []);
 
   function handleCopy() {
     navigator.clipboard.writeText(item.art.join('\n'));
@@ -14,37 +59,21 @@ function AsciiCard({ item }) {
     setTimeout(() => setCopied(false), 1500);
   }
 
-  useEffect(() => {
-    const pre = preRef.current;
-    const box = boxRef.current;
-    if (!pre || !box) return;
-
-    function recalc() {
-      const x = box.clientWidth / pre.scrollWidth;
-      const y = box.clientHeight / pre.scrollHeight;
-      setScale(Math.min(x, y, 1));
-    }
-
-    recalc();
-
-    const ro = new ResizeObserver(recalc);
-    ro.observe(box);
-    return () => ro.disconnect();
-  }, []);
-
   return (
     <div className="font-jetbrains relative group w-full h-full rounded-2xl border border-reverse/50 hover:border-reverse/70 hover:shadow-md hover:shadow-zinc-700/40 flex flex-col">
+
       <button
         onClick={handleCopy}
         className={`absolute top-3 right-3 px-3 py-3 rounded-4xl border text-xs transition-all duration-500 ${
-          copied ? 'bg-green-500 border-green-500 text-white' : 'bg-accent-bg hover:border-accent-text/30'
+          copied
+            ? 'bg-green-500 border-green-500 text-white'
+            : 'bg-accent-bg hover:border-accent-text/30'
         }`}
       >
-        {copied ? (
-          <svg className="w-4 h-4"><use href="/sprite.svg#icon-tick" className="fill-accent-text" /></svg>
-        ) : (
-          <svg className="w-5 h-5"><use href="/sprite.svg#icon-copy" className="fill-accent-text" /></svg>
-        )}
+        {copied
+          ? <svg className="w-4 h-4"><use href="/sprite.svg#icon-tick" className="fill-accent-text" /></svg>
+          : <svg className="w-5 h-5"><use href="/sprite.svg#icon-copy" className="fill-accent-text" /></svg>
+        }
       </button>
 
       <div ref={boxRef} className="flex-1 mt-10 mb-4 w-full flex items-center justify-center overflow-hidden">
@@ -72,7 +101,7 @@ function AsciiCard({ item }) {
           </p>
           <p className="flex items-center gap-2 text-reverse/50">
             <svg className="h-4 w-4"><use href="/sprite.svg#icon-eye" className="fill-reverse/50" /></svg>
-            1444
+            {views ?? '...'}
           </p>
           <p className="flex items-center gap-2 text-reverse/50">
             <svg className="h-3 w-3"><use href="/sprite.svg#icon-clock" className="fill-reverse/50" /></svg>
@@ -91,17 +120,26 @@ function AsciiCard({ item }) {
           ))}
         </ul>
       </div>
+
     </div>
   );
 }
 
-// big card left on even groups, right on odd
+// every 3 cards the big one flips sides
 function cardLayout(i) {
   const group = Math.floor(i / 3);
   const pos = i % 3;
-  const even = group % 2 === 0;
-  if (pos === 0) return { span: 'lg:col-span-2 lg:row-span-2', order: even ? 'lg:order-first' : 'lg:order-last' };
-  return { span: '', order: even ? 'lg:order-last' : 'lg:order-first' };
+  const isEven = group % 2 === 0;
+
+  if (pos === 0) return {
+    span: 'lg:col-span-2 lg:row-span-2',
+    order: isEven ? 'lg:order-first' : 'lg:order-last',
+  };
+
+  return {
+    span: '',
+    order: isEven ? 'lg:order-last' : 'lg:order-first',
+  };
 }
 
 function Ascii() {
