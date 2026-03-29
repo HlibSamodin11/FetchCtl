@@ -5,6 +5,8 @@
       "name": "Linux Tux",
       "tags": ["linux", "os", "penguin", "tech"],
       "description": "The official Linux penguin mascot representing open-source and tech culture",
+      "color": "un-coloured",
+      "animation": "un-animated",
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⣿⣿⣿⣿⣿⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -31,6 +33,8 @@
       "name": "Vampire Teeth",
       "tags": ["vampire", "teeth", "dark", "creepy"],
       "description": "A pair of sharp vampire fangs dripping with dark intent",
+      "color": "un-coloured",
+      "animation": "un-animated",
 
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⣿⣦⠀⠀⠀⠀⣠⣾⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -59,6 +63,8 @@
       "name": "Python",
       "tags": ["python", "language", "programming"],
       "description": "The Python programming language logo, a pair of intertwined snakes",
+      "color": "un-coloured",
+      "animation": "un-animated",
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⢀⣤⣴⣶⣶⣶⣶⣶⣦⣄",
         "⠀⠀⠀⠀⠀⠀⢀⣾⠟⠛⢿⣿⣿⣿⣿⣿⣿⣷",
@@ -79,6 +85,9 @@
       "name": "Saturn",
       "tags": ["saturn", "planet", "space", "sci-fi"],
       "description": "The ringed gas giant Saturn, floating peacefully in deep space",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
 
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -118,6 +127,9 @@
       "name": "Cat",
       "tags": ["cat", "cute", "animal", "pet"],
       "description": "A graceful cat sitting calmly, rendered in intricate braille dot art",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⣤⣤⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣾⡿⣿⣇⠀⠀⠀⠀",
         "⣿⢏⣹⣳⣯⣗⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⡿⠃⠒⣜⣮⢧⡀⠀⠀",
@@ -141,6 +153,9 @@
       "name": "Berserk",
       "tags": ["berserk", "anime", "manga", "guts", "symbol", "dark"],
       "description": "The iconic Brand of Sacrifice from the dark fantasy manga Berserk",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⢀⡴⠁⠀⠀⣿⡏⠀⠀⠱⣄⠀⠀⠀⠀⠀",
         "⠀⠀⢀⣴⡟⠁⠀⠀⠀⣿⡇⠀⠀⠀⠙⣷⣄⠀⠀⠀",
@@ -162,6 +177,9 @@
       "name": "Anime Face",
       "tags": ["anime", "manga", "face"],
       "description": "An expressive anime-style face packed with detail and dramatic energy",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⣇⣿⠘⣿⣿⣿⡿⡿⣟⣟⢟⢟⢝⠵⡝⣿⡿⢂⣼⣿⣷⣌⠩⡫⡻⣝⠹⢿⣿⣷",
         "⡆⣿⣆⠱⣝⡵⣝⢅⠙⣿⢕⢕⢕⢕⢝⣥⢒⠅⣿⣿⣿⡿⣳⣌⠪⡪⣡⢑⢝⣇",
@@ -184,6 +202,9 @@
       "name": "Anime Eyes",
       "tags": ["anime", "eyes", "manga"], 
       "description": "Wide, piercing anime eyes gazing intensely into your soul",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⡇⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⢁⣿⣿⡏⠉⠉⠉⠉⠉⠉⠉⠉⠉⢹⣇⠉⠉⢳⣌⢉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⡇",
         "⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠇⠀⠀⢸⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣧⠀⠀⢻⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇",
@@ -205,6 +226,9 @@
       "name": "Emu",
       "tags": ["anime" , "cute"],
       "description": "A tall, detailed emu bird standing proudly in all its ASCII glory",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⠓⠶⣤⠀⠀⠀⠀⣠⠶⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠇⠀⢠⡏⠀⠀⢀⡔⠉⠀⢈⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -236,6 +260,8 @@
       "name": "Gojo Satoru",
       "tags": ["anime", "gojo", "manga", "jjk", "jujutsu-kaisen"],
       "description": "The blindfolded infinity sorcerer Gojo Satoru from Jujutsu Kaisen",
+      "color": "un-coloured",
+      "animation": "un-animated",
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⠚⣷⠀⠀⣀⣤⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡞⣟⢀⡴⠋⠀⠀⣿⠖⠋⢀⡏⠀⠀⠀⡀⡀⠀⠀",
@@ -262,6 +288,9 @@
       "name": "Ohayou",
       "tags": ["anime", "face", "happy", "manga"],
       "description": "A cheerful anime character saying good morning with infectious energy",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⢇⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠔⢉⠾⢜⢆⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⠊⠰⢅⣌⡄⠀⠀⠀⠀⠀⠀",
@@ -291,6 +320,9 @@
       "name": "Goose",
       "tags": ["goose", "animal"],
       "description": "An aggressive goose staring you down, ready to honk at any moment",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿",
         "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿",
@@ -311,6 +343,9 @@
       "name": "Rose",
       "tags": ["rose", "plant", "romance", "flower"],
       "description": "A delicate rose in full bloom, petals unfurling on a long elegant stem",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⢔⣒⠂⣀⣀⣤⣄⣀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⣴⣿⠋⢠⣟⡼⣷⠼⣆⣼⢇⣿⣄⠱⣄",
@@ -344,6 +379,9 @@
       "name": "Hyped Cat",
       "tags": ["cat", "hype", "hype-cat"],
       "description": "An extremely hyped-up cat bursting with chaotic energy and enthusiasm",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⢀⣤⢤⡀⠀⠀⠀⠀⠀⠀⠀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀⠀⠀⢀⣀⣀⣀⡤⢤⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⣀⣀⣀⣀⣀⠀⠀⠀",
         "⠀⢸⠀⠀⢹⠀⠀⠀⠀⠀⠀⢸⠃⠈⢹⠀⠀⢸⡛⠏⠙⢦⡀⠀⠀⠀⠀⠀⠀⢀⡔⠋⡟⡧⠀⠀⡟⠁⠙⢛⣁⠀⠀⠈⠛⢦⡀⠀⠀⠀⠀⣰⠛⠋⠉⠁⠀⠀⠀⠀⠀⠈⣷⠀⠀",
@@ -385,6 +423,9 @@
       "name": "Alien Cat",
       "tags": ["alien", "cat", "meme", "animal"],
       "description": "A bizarrely unsettling cat with alien features — pure internet cursed energy",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀⠀⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡿⠇⠀⠀⠀⠀⢻⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -416,6 +457,9 @@
       "name": "3D Emoji",
       "tags": ["3D", "emoji", "meme"],
       "description": "A 3D-style rendered emoji face with depth and bold expressive features.",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣤⠤⡶⠲⠲⠖⠖⠖⠶⠤⢤⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡠⣤⣀⣤⣤⣶⣿⡟⢉⠉⡁⢐⣠⣤⣤⣄⡀⠠⠀⠀⠀⠉⠙⢷⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -455,6 +499,9 @@
       "name": "Mini Cat",
       "tags": ["cute", "mini", "cat"],
       "description": "An adorably tiny cat rendered in minimalist braille dot art",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⢀⠠⠤⠀⢀⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠐⠀⠐⠀⠀⢀⣾⣿⡇⠀⠀⠀⠀⠀⢀⣼⡇⠀⠀⠀⠀",
@@ -474,6 +521,9 @@
       "name": "Triple t",
       "tags": ["ttt", "tung-tung-sahur", "brainrot", "meme"],
       "description": "Tung Tung Tung Sahur, the chaotic Italian brainrot meme character",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠐⢂⠐⡒⠂⣐⡢⠤⣀⣀⡀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡜⢁⣺⣿⣿⣿⣿⣿⣿⣿⣶⠈⡁⠀",
@@ -509,6 +559,9 @@
       "name": "Star",
       "tags": ["star", "cute"],
       "description": "A cute little shooting star trailing light across the night sky",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⡀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠀⠀⠀",
@@ -527,6 +580,9 @@
       "name": "Anime School Girl",
       "tags": ["anime", "school", "girl"],
       "description": "A detailed anime school girl character drawn in classic braille style",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⢼⣿⣿⢏⢐⠖⣐⡂⠑⠉⠉⠭⠽⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⢋⠉⠀⠀⠁⠙⢷⢿⣿⣿⣿⣿⣿⣮⡻⣿⣿⣿⣿⣯⣿⣿⡿",
         "⣿⣿⡯⠫⢕⠾⣻⡷⠕⡂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠁⢴⣶⣩⣝⡻⢿⣷⣝⢿⣿⣿⣮⣽⣿⣿",
@@ -560,6 +616,9 @@
       "name": "Sybau",
       "tags": ["sybau", "meme"],
       "description": "The iconic Sybau meme image from titok",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠀⠀⠀⢀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡾⠛⣇⠀⢰⠟⢷⡀",
@@ -588,6 +647,9 @@
       "name": "Ur Gay Cat",
       "tags": ["gay", "cat", "meme", "cute" , "message"],
       "description": "A sassy rainbow-energy cat sending you a very specific message",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⠤⠤⠤⠴⠶⠶⠒⠚⠋⠉⠉⠉⠉⣷⢀⣀⡤⠤⠶⠶⠒⠛⢶⡄⠀⠀⠀",
@@ -627,6 +689,9 @@
       "name": "Cat Music Listener",
       "tags": ["cat", "music", "listener" , "cute"],
       "description": "A vibe-obsessed cat lost in the music, headphones on and soul elsewhere.",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⠞⠉⠀⠈⠉⠳⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣇⠀⠀⠀⠀⠀⠀⠀",
@@ -670,6 +735,9 @@
       "name": "Shrek",
       "tags": ["shrek", "movie", "childhood"],
       "description": "A goofy green ogre from the Shrek movies, known for his humor and swampy adventures",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⡴⠑⡄⠀⠀⠀⠀⠀⠀⠀ ⣀⣀⣤⣤⣤⣀⡀",
         "⠸⡇⠀⠿⡀⠀⠀⠀⣀⡴⢿⣿⣿⣿⣿⣿⣿⣿⣷⣦⡀",
@@ -691,6 +759,9 @@
       "name": "Clover",
       "tags": ["clover", "luck", "ireland"],
       "description": "A lucky four-leaf clover symbolizing fortune, hope, and Irish tradition",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣾⢏⠒⠀⠸⠓⠾⣷⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -724,6 +795,9 @@
       "name": "Exploding Star",
       "tags": ["star", "super-nova" , "exploding"],
       "description": "A powerful star bursting into a brilliant supernova, radiating energy across the cosmos",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -756,6 +830,9 @@
       "name": "Angel Wings",
       "tags": ["wings", "angel", "death"],
       "description": "A mystical pair of angel wings symbolizing purity, protection, and the boundary between life and death",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⣆⠈⠳⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⠴⠒⢲",
         "⠘⢦⡀⠀⠙⠲⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⠖⠉⠀⢀⡴⠋",
@@ -780,6 +857,9 @@
       "name": "Human Heart",
       "tags": ["heart", "love", "body"],
       "description": "A detailed anatomical illustration of the human heart, symbolizing love, life, and the complexity of the circulatory system",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⢀⡀⠀⠀⠀⠀⠀⠀⢀⣀⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⣠⡄⣀⠀⠀⠈⣿⣟⢸⡀⠀⠀⠀⠀⠀⣼⣟⢷⡇⠀⠀⠀⢀⣤⠀⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -822,6 +902,9 @@
       "name": "Staring Cat",
       "tags": ["staring", "cat", "cute"],
       "description": "A cute and slightly intense cat illustration that appears to be staring directly at the viewer with wide, focused eyes",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣷⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -853,6 +936,9 @@
       "name": "Mad Cat",
       "tags": ["mad", "cat", "angry"],
       "description": "A cat that looks very angry and mad, shown in a simple style",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣄⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⠋⠀⠹⣷⡀⠀⠀⠀⠀⠀",
@@ -880,6 +966,9 @@
       "name": "Smiling Face",
       "tags": ["smiling", "face", "drawing"],
       "description": "A simple drawing of a smiling face that looks happy and friendly, showing a calm and positive expression",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢾⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -914,6 +1003,9 @@
       "name": "Tall Star",
       "tags": ["star", "tall", "supernova"],
       "description": "A tall glowing star that looks like it is exploding in space like a supernova, shining brightly with strong energy.",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠑⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠘⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠌⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -950,6 +1042,9 @@
       "name": "Buff Shrek",
       "tags": ["buff", "shrek", "childhood"],
       "description": "A strong and muscular version of Shrek, shown in a funny and exaggerated way, looking powerful and bigger than usual",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⣤⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⠀⠀⠀⢀⣴⠟⠉⠀⠀⠀⠈⠻⣦⡀⠀⠀⠀⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -983,6 +1078,9 @@
       "name": "Gothic Cross",
       "tags": ["goth", "cross", "unique"],
       "description": "A detailed gothic-style cross made of dark, intricate shapes, giving a dramatic and mysterious look",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⡉⠳⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -1035,6 +1133,9 @@
       "name": "BRO WHAT?",
       "tags": ["what", "bro", "message"],
       "description": "I dont think this needs an explanation T-T",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣏⢯⠍⠭⢶⡄⠀⠀⣴⡾⠋⠛⠛⠛⢵⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⢀⣄⣲⠓⣶⠀⠀⠀⢻⡠⠀⠀⢠⡿⠀⠀⢸⡏⠀⠀⠀⠀⠀⠀⢸⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -1056,6 +1157,9 @@
       "name": "I LOVE YOU",
       "tags": ["love", "you", "message"],
       "description": "Just I Love You nothing much",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⢀⡆⠀⠀⠀⠀⠀⠀⠀⢠⢭⡿⢷⣄⠀⠀⠀⡆⠀⠀⠀⢠⠆⣤⡤⡤⡄⣤⣤⣀",
         "⠀⢦⡆⠀⠀⡜⢺⠀⠀⠀⠀⠀⠀⠠⠍⠂⠀⠸⢸⠀⠀⢁⣇⠀⠀⢀⡃⣻⠉⠉⠁⠉⠁⠉⠉",
@@ -1090,6 +1194,9 @@
       "name": "Animal With Long Ears",
       "tags": ["animal", "cute", "unique"],
       "description": "A cute animal with long ears, drawn in a simple and stylized way, standing in a playful pose",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⢀⡀⠀⢀⣠⣤⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⠶⠚⠋⡿⠟⠋⠉⠉⠉⠉⠉⠉⠉⠛⠳⢶⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -1112,6 +1219,9 @@
       "name": "Glowing Heart",
       "tags": ["glowing", "love", "cute" , "heart"],
       "description": "A glowing heart symbol that looks bright and slightly sparkling, representing love and warmth",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -1135,6 +1245,9 @@
       "name": "Hollow Knight",
       "tags": ["hollow", "knight", "character" , "game"],
       "description": "Hollow Knight Character",
+      "color": "un-coloured",
+      "animation": "un-animated",
+
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣤⡄⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣾⠿⣻⣿⠟⠁⠀⠀⠀⠀⣠⣾⡆",
