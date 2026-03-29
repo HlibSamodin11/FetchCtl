@@ -75,7 +75,7 @@ function AsciiCard({ item }) {
                 className="fill-reverse/50"
               ></use>
             </svg>
-            FetchCtl (found on internet)
+            FetchCtl (web)
           </p>
           <p className="flex items-center gap-2 text-reverse/50">
             <svg className="h-3 w-3">
