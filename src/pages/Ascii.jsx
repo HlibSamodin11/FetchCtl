@@ -3,7 +3,20 @@ import { supabase } from '../supabaseClient';
 import asciiFile from '../assets/ascii.json';
 import AsciiFilters from '../components/AsciiFilters';
 
-function AsciiCard({ item, user, onOpenLogin }) {
+function getArtSize(art) {
+  const rows = art.length;
+  const cols = Math.max(...art.map(line => [...line].length));
+  if (rows >= 20 || cols >= 50) return 'big';
+  if (rows >= 10 || cols >= 25) return 'medium';
+  return 'small';
+}
+
+function getBigLeft(id) {
+  const hash = id.split('').reduce((acc, ch, i) => acc + ch.charCodeAt(0) * (i + 1), 0);
+  return hash % 2 === 0;
+}
+
+function AsciiCard({ item, user, onOpenLogin, stretch = false }) {
   const [copied, setCopied] = useState(false);
   const [scale, setScale] = useState(1);
   const [views, setViews] = useState(null);
@@ -12,7 +25,10 @@ function AsciiCard({ item, user, onOpenLogin }) {
   const preRef = useRef(null);
   const boxRef = useRef(null);
 
-  // only count a view once the card is actually half on screen
+  const artSize = getArtSize(item.art);
+  const minHeight = artSize === 'big' ? 280 : artSize === 'medium' ? 160 : 80;
+  const maxHeight = minHeight * 1.5;
+
   useEffect(() => {
     const box = boxRef.current;
     if (!box) return;
@@ -35,7 +51,6 @@ function AsciiCard({ item, user, onOpenLogin }) {
     return () => observer.disconnect();
   }, [item.id]);
 
-  // load likes and check if the current user has liked this
   useEffect(() => {
     supabase
       .from('art_likes')
@@ -48,22 +63,22 @@ function AsciiCard({ item, user, onOpenLogin }) {
       });
   }, [item.id, user]);
 
-  // keep the art scaled to fit whatever box it's sitting in
   useEffect(() => {
     const pre = preRef.current;
     const box = boxRef.current;
     if (!pre || !box) return;
 
     const recalc = () => {
+      if (!pre.scrollWidth || !pre.scrollHeight) return;
       const scaleX = box.clientWidth / pre.scrollWidth;
       const scaleY = box.clientHeight / pre.scrollHeight;
       setScale(Math.min(scaleX, scaleY, 1));
     };
 
-    recalc();
+    const timer = setTimeout(recalc, 50);
     const ro = new ResizeObserver(recalc);
     ro.observe(box);
-    return () => ro.disconnect();
+    return () => { clearTimeout(timer); ro.disconnect(); };
   }, []);
 
   function handleCopy() {
@@ -74,7 +89,6 @@ function AsciiCard({ item, user, onOpenLogin }) {
 
   async function handleLike() {
     if (!user) { onOpenLogin(); return; }
-
     if (liked) {
       setLiked(false);
       setLikes(n => n - 1);
@@ -87,11 +101,13 @@ function AsciiCard({ item, user, onOpenLogin }) {
   }
 
   return (
-    <div className="font-jetbrains relative group w-full h-full rounded-2xl border border-reverse/50 hover:border-reverse/70 hover:shadow-md hover:shadow-zinc-700/40 flex flex-col">
+    // stretch=true only on the big card in a trio so it fills the column
+    // otherwise the card shrinks to fit its content naturally
+    <div className={`font-jetbrains relative group w-full rounded-2xl border border-reverse/50 hover:border-reverse/70 hover:shadow-md hover:shadow-zinc-700/40 flex flex-col ${stretch ? 'h-full' : ''}`}>
 
       <button
         onClick={handleCopy}
-        className={`absolute top-3 right-3 px-3 py-3 rounded-4xl border text-xs transition-all duration-500 ${
+        className={`absolute top-3 right-3 px-3 py-3 rounded-4xl border text-xs transition-all duration-500 z-10 ${
           copied ? 'bg-green-500 border-green-500 text-white' : 'bg-accent-bg hover:border-accent-text/30'
         }`}
       >
@@ -101,7 +117,11 @@ function AsciiCard({ item, user, onOpenLogin }) {
         }
       </button>
 
-      <div ref={boxRef} className="flex-1 mt-10 mb-4 w-full flex items-center justify-center overflow-hidden">
+      <div
+        ref={boxRef}
+        className={`w-full flex items-center justify-center overflow-hidden mt-10 mb-4 px-4 ${stretch ? 'flex-1' : ''}`}
+        style={{ minHeight: `${minHeight}px`, maxHeight: stretch ? 'none' : `${maxHeight}px` }}
+      >
         <pre
           ref={preRef}
           style={{ transform: `scale(${scale})`, transformOrigin: 'center center' }}
@@ -120,14 +140,12 @@ function AsciiCard({ item, user, onOpenLogin }) {
             <svg className="h-3 w-3"><use href="/sprite.svg#icon-user" className="fill-reverse/50" /></svg>
             FetchCtl (web)
           </p>
-
           <button onClick={handleLike} className="flex items-center gap-2 cursor-pointer hover:scale-110 transition-all">
             <svg className="h-3 w-3">
               <use href="/sprite.svg#icon-heart" className={liked ? 'fill-[#E85555]' : 'fill-reverse/30'} />
             </svg>
             <span className={liked ? 'text-[#E85555]' : 'text-reverse/50'}>{likes}</span>
           </button>
-
           <p className="flex items-center gap-2 text-reverse/50">
             <svg className="h-4 w-4"><use href="/sprite.svg#icon-eye" className="fill-reverse/50" /></svg>
             {views ?? '...'}
@@ -146,48 +164,95 @@ function AsciiCard({ item, user, onOpenLogin }) {
           ))}
         </ul>
       </div>
-
     </div>
   );
 }
 
-// every 3 cards the big one flips sides
-function cardLayout(i) {
-  const group = Math.floor(i / 3);
-  const pos = i % 3;
-  const isEven = group % 2 === 0;
+function CardGroup({ big, small1, small2, user, onOpenLogin, bigLeft }) {
+  return (
+    <div className="flex gap-6 w-full">
 
-  if (pos === 0) return {
-    span: 'lg:col-span-2 lg:row-span-2',
-    order: isEven ? 'lg:order-first' : 'lg:order-last',
-  };
+      {bigLeft && (
+        <div className="flex-[2] min-w-0">
+          {/* big card stretches to match the small column height */}
+          <AsciiCard item={big} user={user} onOpenLogin={onOpenLogin} stretch />
+        </div>
+      )}
 
-  return {
-    span: '',
-    order: isEven ? 'lg:order-last' : 'lg:order-first',
-  };
+      <div className="flex-[1] min-w-0 flex flex-col gap-6">
+        <AsciiCard item={small1} user={user} onOpenLogin={onOpenLogin} />
+        {small2 && <AsciiCard item={small2} user={user} onOpenLogin={onOpenLogin} />}
+      </div>
+
+      {!bigLeft && (
+        <div className="flex-[2] min-w-0">
+          <AsciiCard item={big} user={user} onOpenLogin={onOpenLogin} stretch />
+        </div>
+      )}
+
+    </div>
+  );
 }
 
 function Ascii({ user, onOpenLogin }) {
   return (
     <section className="bg-bg py-20 flex flex-col items-center px-6 md:px-12">
       <AsciiFilters items={asciiFile.ascii}>
-        {filtered => (
-          <div className="container grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-6">
-            {filtered.length > 0 ? (
-              filtered.map((item, i) => {
-                const { span, order } = cardLayout(i);
+        {filtered => {
+          if (!filtered.length) {
+            return <p className="text-main-text text-sm text-center">no results found</p>;
+          }
+
+          const groups = [];
+          for (let i = 0; i < filtered.length; i += 3) {
+            groups.push(filtered.slice(i, i + 3));
+          }
+
+          return (
+            <div className="container flex flex-col gap-6">
+              {groups.map((group, gi) => {
+                const [big, small1, small2] = group;
+                const bigLeft = getBigLeft(big.id);
+
+                // lone card — shrinks to content, no stretch
+                if (!small1) {
+                  return (
+                    <div key={gi}>
+                      <AsciiCard item={big} user={user} onOpenLogin={onOpenLogin} />
+                    </div>
+                  );
+                }
+
+                // two cards — equal halves, both shrink to content
+                if (!small2) {
+                  return (
+                    <div key={gi} className="flex gap-6">
+                      <div className="flex-1 min-w-0">
+                        <AsciiCard item={big} user={user} onOpenLogin={onOpenLogin} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <AsciiCard item={small1} user={user} onOpenLogin={onOpenLogin} />
+                      </div>
+                    </div>
+                  );
+                }
+
+                // full trio — big card stretches to match small column
                 return (
-                  <div key={item.id} className={`${span} ${order}`}>
-                    <AsciiCard item={item} user={user} onOpenLogin={onOpenLogin} />
-                  </div>
+                  <CardGroup
+                    key={gi}
+                    big={big}
+                    small1={small1}
+                    small2={small2}
+                    user={user}
+                    onOpenLogin={onOpenLogin}
+                    bigLeft={bigLeft}
+                  />
                 );
-              })
-            ) : (
-              <p className="text-main-text text-sm col-span-3 text-center">no results found</p>
-            )}
-          </div>
-        )}
+              })}
+            </div>
+          );
+        }}
       </AsciiFilters>
     </section>
   );
