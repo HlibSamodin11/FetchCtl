@@ -3,10 +3,12 @@ import { supabase } from '../supabaseClient';
 import asciiFile from '../assets/ascii.json';
 import AsciiFilters from '../components/AsciiFilters';
 
-function AsciiCard({ item }) {
+function AsciiCard({ item, user }) {
   const [copied, setCopied] = useState(false);
   const [scale, setScale] = useState(1);
   const [views, setViews] = useState(null);
+  const [likes, setLikes] = useState(0);
+  const [liked, setLiked] = useState(false);
   const preRef = useRef(null);
   const boxRef = useRef(null);
 
@@ -35,6 +37,19 @@ function AsciiCard({ item }) {
     return () => observer.disconnect();
   }, [item.id]);
 
+  // grab like count + check if this user already liked it
+  useEffect(() => {
+    supabase
+      .from('art_likes')
+      .select('user_id')
+      .eq('art_id', item.id)
+      .then(({ data }) => {
+        if (!data) return;
+        setLikes(data.length);
+        if (user) setLiked(data.some(row => row.user_id === user.id));
+      });
+  }, [item.id, user]);
+
   // scale the art down to fit its container
   useEffect(() => {
     const pre = preRef.current;
@@ -58,6 +73,30 @@ function AsciiCard({ item }) {
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   }
+
+  async function handleLike() {
+    if (!user) return;
+
+    if (liked) {
+      setLiked(false);
+      setLikes(prev => prev - 1);
+      await supabase
+        .from('art_likes')
+        .delete()
+        .eq('art_id', item.id)
+        .eq('user_id', user.id);
+    } else {
+      setLiked(true);
+      setLikes(prev => prev + 1);
+      await supabase
+        .from('art_likes')
+        .insert({ art_id: item.id, user_id: user.id });
+    }
+  }
+
+  // heart is red if logged out (just decorative) or if logged in and liked
+  // heart is gray only when logged in but not yet liked
+  const heartRed = !user || liked;
 
   return (
     <div className="font-jetbrains relative group w-full h-full rounded-2xl border border-reverse/50 hover:border-reverse/70 hover:shadow-md hover:shadow-zinc-700/40 flex flex-col">
@@ -95,10 +134,24 @@ function AsciiCard({ item }) {
             <svg className="h-3 w-3"><use href="/sprite.svg#icon-user" className="fill-reverse/50" /></svg>
             FetchCtl (web)
           </p>
-          <p className="flex items-center gap-2 text-reverse/50">
-            <svg className="h-3 w-3"><use href="/sprite.svg#icon-heart" className="fill-[#E85555]" /></svg>
-            67
-          </p>
+
+          <button
+            onClick={handleLike}
+            className={`flex items-center gap-2 transition-all ${
+              user ? 'cursor-pointer hover:scale-110' : 'cursor-default'
+            }`}
+          >
+            <svg className="h-3 w-3">
+              <use
+                href="/sprite.svg#icon-heart"
+                className={heartRed ? 'fill-[#E85555]' : 'fill-reverse/30'}
+              />
+            </svg>
+            <span className={heartRed ? 'text-[#E85555]' : 'text-reverse/50'}>
+              {likes}
+            </span>
+          </button>
+
           <p className="flex items-center gap-2 text-reverse/50">
             <svg className="h-4 w-4"><use href="/sprite.svg#icon-eye" className="fill-reverse/50" /></svg>
             {views ?? '...'}
@@ -142,7 +195,7 @@ function cardLayout(i) {
   };
 }
 
-function Ascii() {
+function Ascii({ user }) {
   return (
     <section className="bg-bg py-20 flex flex-col items-center px-6 md:px-12">
       <AsciiFilters items={asciiFile.ascii}>
@@ -153,7 +206,7 @@ function Ascii() {
                 const { span, order } = cardLayout(i);
                 return (
                   <div key={item.id} className={`${span} ${order}`}>
-                    <AsciiCard item={item} />
+                    <AsciiCard item={item} user={user} />
                   </div>
                 );
               })
