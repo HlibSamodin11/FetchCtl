@@ -2,7 +2,7 @@
   "ascii": [
     {
       "id": "tux",
-      "name": "linux tux",
+      "name": "Linux Tux",
       "tags": ["linux", "os", "penguin", "tech"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -27,7 +27,7 @@
     },
     {
       "id": "teeth",
-      "name": "vampire teeth",
+      "name": "Vampire Teeth",
       "tags": ["vampire", "teeth", "dark", "creepy"],
 
       "art": [
@@ -54,7 +54,7 @@
     },
     {
       "id": "python",
-      "name": "python",
+      "name": "Python",
       "tags": ["python", "language", "programming"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⢀⣤⣴⣶⣶⣶⣶⣶⣦⣄",
@@ -73,7 +73,7 @@
     },
     {
       "id": "saturn",
-      "name": "saturn",
+      "name": "Saturn",
       "tags": ["saturn", "planet", "space", "sci-fi"],
 
       "art": [
@@ -111,7 +111,7 @@
     },
     {
       "id": "cat",
-      "name": "cat",
+      "name": "Cat",
       "tags": ["cat", "cute", "animal", "pet"],
       "art": [
         "⣤⣤⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣾⡿⣿⣇⠀⠀⠀⠀",
@@ -133,7 +133,7 @@
     },
     {
       "id": "berserk",
-      "name": "berserk",
+      "name": "Berserk",
       "tags": ["berserk", "anime", "manga", "guts", "symbol", "dark"],
       "art": [
         "⠀⠀⠀⠀⢀⡴⠁⠀⠀⣿⡏⠀⠀⠱⣄⠀⠀⠀⠀⠀",
@@ -153,7 +153,7 @@
     },
     {
       "id": "anime-face",
-      "name": "anime-face",
+      "name": "Anime Face",
       "tags": ["anime", "manga", "face"],
       "art": [
         "⣇⣿⠘⣿⣿⣿⡿⡿⣟⣟⢟⢟⢝⠵⡝⣿⡿⢂⣼⣿⣷⣌⠩⡫⡻⣝⠹⢿⣿⣷",
@@ -174,7 +174,7 @@
     },
     {
       "id": "anime-eyes",
-      "name": "anime-eyes",
+      "name": "Anime Eyes",
       "tags": ["anime", "eyes", "manga"],
       "art": [
         "⡇⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⢁⣿⣿⡏⠉⠉⠉⠉⠉⠉⠉⠉⠉⢹⣇⠉⠉⢳⣌⢉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⡇",
@@ -194,7 +194,7 @@
     },
     {
       "id": "emu",
-      "name": "emu",
+      "name": "Emu",
       "tags": ["anime"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⠓⠶⣤⠀⠀⠀⠀⣠⠶⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -224,7 +224,7 @@
     },
     {
       "id": "gojo",
-      "name": "gojo",
+      "name": "Gojo Satoru",
       "tags": ["anime", "gojo", "manga", "jjk", "jujutsu-kaisen"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⠚⣷⠀⠀⣀⣤⠀⠀⠀⠀⠀⠀⠀",
@@ -249,7 +249,7 @@
     },
     {
       "id": "ohayou",
-      "name": "ohayou",
+      "name": "Ohayou",
       "tags": ["anime", "face", "happy", "manga"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⢇⠀⠀⠀⠀⠀⠀⠀",
@@ -277,7 +277,7 @@
     },
     {
       "id": "goose",
-      "name": "goose",
+      "name": "Goose",
       "tags": ["goose", "animal"],
       "art": [
         "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿",
@@ -296,7 +296,7 @@
     },
     {
       "id": "rose",
-      "name": "rose",
+      "name": "Rose",
       "tags": ["rose", "plant", "romance", "flower"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⢔⣒⠂⣀⣀⣤⣄⣀⠀⠀",
@@ -328,7 +328,7 @@
     },
     {
       "id": "hype-cat",
-      "name": "hype-cat",
+      "name": "Hyped Cat",
       "tags": ["cat", "hype", "hype-cat"],
       "art": [
         "⠀⢀⣤⢤⡀⠀⠀⠀⠀⠀⠀⠀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀⠀⠀⢀⣀⣀⣀⡤⢤⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⣀⣀⣀⣀⣀⠀⠀⠀",
@@ -368,8 +368,8 @@
     },
     {
       "id": "alien-cat",
-      "name": "alien-cat",
-      "tags": ["alien", "cat", "anime", "animal"],
+      "name": "Alien Cat",
+      "tags": ["alien", "cat", "meme", "animal"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀⠀⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡿⠇⠀⠀⠀⠀⢻⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -398,7 +398,7 @@
     },
     {
       "id": "3d-emoji",
-      "name": "3d-emoji",
+      "name": "3d Emoji",
       "tags": ["3d", "emoji", "meme"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣤⠤⡶⠲⠲⠖⠖⠖⠶⠤⢤⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -436,7 +436,7 @@
     },
     {
       "id": "mini-cat",
-      "name": "mini-cat",
+      "name": "Mini Cat",
       "tags": ["cute", "mini", "cat"],
       "art": [
         "⠀⠀⠀⠀⢀⠠⠤⠀⢀⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -454,7 +454,7 @@
     },
     {
       "id": "ttt",
-      "name": "ttt",
+      "name": "Triple t",
       "tags": ["ttt", "tung-tung-sahur", "brainrot", "meme"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠐⢂⠐⡒⠂⣐⡢⠤⣀⣀⡀⠀",
@@ -488,7 +488,7 @@
     },
     {
       "id": "star",
-      "name": "star",
+      "name": "Star",
       "tags": ["star", "cute"],
       "art": [
         "⠀⠀⡀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -505,7 +505,7 @@
     },
     {
       "id": "anime-school-girl",
-      "name": "anime-school-girl",
+      "name": "Anime School Girl",
       "tags": ["anime", "school", "girl"],
       "art": [
         "⢼⣿⣿⢏⢐⠖⣐⡂⠑⠉⠉⠭⠽⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⢋⠉⠀⠀⠁⠙⢷⢿⣿⣿⣿⣿⣿⣮⡻⣿⣿⣿⣿⣯⣿⣿⡿",
@@ -537,7 +537,7 @@
     },
     {
       "id": "sybau",
-      "name": "sybau",
+      "name": "Sybau",
       "tags": ["sybau", "meme"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠀⠀⠀⢀⠀⠀",
@@ -564,7 +564,7 @@
     },
     {
       "id": "ur-gay-cat",
-      "name": "ur-gay-cat",
+      "name": "Ur Gay Cat",
       "tags": ["gay", "cat", "meme", "cute" , "message"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -602,7 +602,7 @@
     },
     {
       "id": "cat-music-listener",
-      "name": "cat-music-listener",
+      "name": "Cat Music Listener",
       "tags": ["cat", "music", "listener" , "cute"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -644,7 +644,7 @@
     },
     {
       "id": "shrek",
-      "name": "shrek",
+      "name": "Shrek",
       "tags": ["shrek", "movie", "childhood"],
       "art": [
         "⡴⠑⡄⠀⠀⠀⠀⠀⠀⠀ ⣀⣀⣤⣤⣤⣀⡀",
@@ -664,7 +664,7 @@
     },
     {
       "id": "clover",
-      "name": "clover",
+      "name": "Clover",
       "tags": ["clover", "luck", "ireland"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -695,9 +695,9 @@
       ]
     },
     {
-      "id": "star",
-      "name": "star",
-      "tags": ["star", "super-nova"],
+      "id": "exploding-star",
+      "name": "Exploding Star",
+      "tags": ["star", "super-nova" , "exploding"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -726,8 +726,8 @@
       ]
     },
     {
-      "id": "wings",
-      "name": "wings",
+      "id": "angel-ings",
+      "name": "Angel Wings",
       "tags": ["wings", "angel", "death"],
       "art": [
         "⣆⠈⠳⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⠴⠒⢲",
@@ -750,7 +750,7 @@
     },
     {
       "id": "heart",
-      "name": "heart",
+      "name": "Human Heart",
       "tags": ["heart", "love", "body"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⢀⡀⠀⠀⠀⠀⠀⠀⢀⣀⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -791,7 +791,7 @@
     },
     {
       "id": "cat-staring",
-      "name": "cat-staring",
+      "name": "Staring Cat",
       "tags": ["staring", "cat", "cute"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -821,7 +821,7 @@
     },
     {
       "id": "mad-cat",
-      "name": "mad-cat",
+      "name": "Mad Cat",
       "tags": ["mad", "cat", "angry"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣄⠀⠀⠀⠀⠀⠀⠀",
@@ -847,7 +847,7 @@
     },
     {
       "id": "smiling-face",
-      "name": "smiling-face",
+      "name": "Smiling Face",
       "tags": ["smiling", "face", "drawing"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -880,7 +880,7 @@
     },
     {
       "id": "tall-star",
-      "name": "tall-star",
+      "name": "Tall Star",
       "tags": ["star", "tall", "supernova"],
       "art": [
         "⠑⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -915,7 +915,7 @@
     },
     {
       "id": "buff-shrek",
-      "name": "buff-shrek",
+      "name": "Buff Shrek",
       "tags": ["buff", "shrek", "childhood"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⣤⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -947,7 +947,7 @@
     },
     {
       "id": "goth-cross",
-      "name": "goth-cross",
+      "name": "Gothic Cross",
       "tags": ["goth", "cross", "unique"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -998,7 +998,7 @@
     },
     {
       "id": "bro-what?",
-      "name": "bro-what?",
+      "name": "BRO WHAT?",
       "tags": ["what", "bro", "message"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣏⢯⠍⠭⢶⡄⠀⠀⣴⡾⠋⠛⠛⠛⢵⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -1018,7 +1018,7 @@
     },
     {
       "id": "i-love-you",
-      "name": "i-love-you",
+      "name": "I LOVE YOU",
       "tags": ["love", "you", "message"],
       "art": [
         "⠀⠀⠀⠀⠀⢀⡆⠀⠀⠀⠀⠀⠀⠀⢠⢭⡿⢷⣄⠀⠀⠀⡆⠀⠀⠀⢠⠆⣤⡤⡤⡄⣤⣤⣀",
@@ -1050,8 +1050,8 @@
       ]
     },
     {
-      "id": "cute-animal",
-      "name": "cute-animal",
+      "id": "long-eared-animal",
+      "name": "Animal With Long Ears",
       "tags": ["animal", "cute", "unique"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⢀⡀⠀⢀⣠⣤⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -1072,7 +1072,7 @@
     },
     {
       "id": "glowing-heart",
-      "name": "glowing-heart",
+      "name": "Glowing Heart",
       "tags": ["glowing", "love", "cute" , "heart"],
       "art": [
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
@@ -1094,7 +1094,7 @@
     },
     {
       "id": "hollow-knight",
-      "name": "hollow-knight",
+      "name": "Hollow Knight",
       "tags": ["hollow", "knight", "character" , "game"],
       "art": [
         "[]",
