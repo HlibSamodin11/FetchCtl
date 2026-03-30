@@ -9,7 +9,11 @@ export default function GetStarted({ onClose }) {
   const [loading,     setLoading]     = useState(false);
   const [authError,   setAuthError]   = useState('');
   const [success,     setSuccess]     = useState(false);
-  const [pendingUser, setPendingUser] = useState(null); // waiting on username pick
+  const [pendingUser, setPendingUser] = useState(null);
+
+  // forgot password
+  const [forgotMode, setForgotMode] = useState(false);
+  const [resetSent,  setResetSent]  = useState(false);
 
   const cooldownRef = useRef(false);
 
@@ -25,7 +29,6 @@ export default function GetStarted({ onClose }) {
       .select('username')
       .eq('id', user.id)
       .single();
-
     if (data?.username) {
       setSuccess(true);
       setTimeout(onClose, 1800);
@@ -37,11 +40,7 @@ export default function GetStarted({ onClose }) {
   async function handleAuth(e) {
     e.preventDefault();
     if (loading || cooldownRef.current) return;
-
-    if (!email.trim() || !password.trim()) {
-      setAuthError('Email and password required');
-      return;
-    }
+    if (!email.trim() || !password.trim()) { setAuthError('Email and password required'); return; }
 
     setAuthError('');
     cooldownRef.current = true;
@@ -63,6 +62,19 @@ export default function GetStarted({ onClose }) {
     }
   }
 
+  async function handleForgotPassword(e) {
+    e.preventDefault();
+    if (!email.trim()) { setAuthError('Enter your email first'); return; }
+    setLoading(true);
+    setAuthError('');
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setLoading(false);
+    if (error) { setAuthError(error.message); return; }
+    setResetSent(true);
+  }
+
   async function handleOAuth(provider) {
     setAuthError('');
     const { error } = await supabase.auth.signInWithOAuth({
@@ -78,6 +90,12 @@ export default function GetStarted({ onClose }) {
     setTimeout(onClose, 1800);
   }
 
+  function exitForgot() {
+    setForgotMode(false);
+    setResetSent(false);
+    setAuthError('');
+  }
+
   if (pendingUser) return <UsernameSetup user={pendingUser} onDone={onUsernameDone} />;
 
   return (
@@ -89,7 +107,16 @@ export default function GetStarted({ onClose }) {
         className="relative w-96 bg-accent-bg border border-button-stroke rounded-2xl px-9 py-10 transition-all duration-300"
         onClick={e => e.stopPropagation()}
       >
-        {success ? (
+        {/* top tag */}
+        <div className="absolute -top-px left-1/2 -translate-x-1/2 bg-accent-bg border border-button-stroke border-t-0 rounded-b-xl px-4 py-1 flex items-center gap-2">
+          <div className="rounded-full bg-accent-text p-0.5">
+            <svg className="w-3.5 h-3.5"><use href="/sprite.svg#icon-logo" /></svg>
+          </div>
+          <span className="text-xs font-bold italic text-accent-text">FetchCtl</span>
+        </div>
+
+        {/* ── success ── */}
+        {success && (
           <div className="flex flex-col items-center justify-center gap-4 py-6 animate-fade-in">
             <div className="w-16 h-16 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center">
               <svg className="w-8 h-8 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -101,16 +128,67 @@ export default function GetStarted({ onClose }) {
             </p>
             <p className="text-main-text text-xs">Taking you in...</p>
           </div>
-        ) : (
-          <>
-            <div className="absolute -top-px left-1/2 -translate-x-1/2 bg-accent-bg border border-button-stroke border-t-0 rounded-b-xl px-4 py-1 flex items-center gap-2">
-              <div className="rounded-full bg-accent-text p-0.5">
-                <svg className="w-3.5 h-3.5"><use href="/sprite.svg#icon-logo" /></svg>
-              </div>
-              <span className="text-xs font-bold italic text-accent-text">FetchCtl</span>
-            </div>
+        )}
 
-            {/* login / register tabs */}
+        {/* ── forgot password ── */}
+        {!success && forgotMode && (
+          <>
+            <button
+              onClick={exitForgot}
+              className="flex items-center gap-1.5 text-xs text-main-text/50 hover:text-accent-text transition mb-6"
+            >
+              <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Back to login
+            </button>
+
+            {resetSent ? (
+              <div className="flex flex-col items-center gap-4 py-4 animate-fade-in">
+                <div className="w-14 h-14 rounded-full bg-accent-text/5 border border-accent-text/20 flex items-center justify-center">
+                  <svg className="w-6 h-6 text-accent-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+                  </svg>
+                </div>
+                <p className="text-accent-text font-bold text-sm text-center">Check your inbox</p>
+                <p className="text-main-text text-xs text-center leading-relaxed">
+                  Sent a reset link to <span className="text-accent-text">{email}</span>. It expires in 1 hour.
+                </p>
+                <button onClick={onClose} className="mt-2 text-xs text-main-text/40 hover:text-accent-text transition underline">
+                  Close
+                </button>
+              </div>
+            ) : (
+              <>
+                <p className="text-accent-text font-bold text-sm mb-1">Reset your password</p>
+                <p className="text-main-text text-xs mb-6">We'll send a reset link to your email.</p>
+                <form onSubmit={handleForgotPassword} className="flex flex-col gap-3">
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    disabled={loading}
+                    onChange={e => setEmail(e.target.value)}
+                    className="bg-button-bg border border-button-stroke rounded-xl px-4 py-3 text-sm text-accent-text placeholder:text-main-text outline-none focus:border-accent-text transition-all disabled:opacity-50"
+                    autoFocus
+                  />
+                  {authError && <p className="text-xs text-red-500">{authError}</p>}
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="mt-1 w-full py-3 bg-get-started-bg text-get-started-text ring-1 ring-black/20 rounded-xl text-sm font-bold transition-all hover:opacity-80 disabled:opacity-50 cursor-pointer"
+                  >
+                    {loading ? 'Sending...' : 'Send reset link'}
+                  </button>
+                </form>
+              </>
+            )}
+          </>
+        )}
+
+        {/* ── normal login / register ── */}
+        {!success && !forgotMode && (
+          <>
             <div className="flex gap-1 bg-accent-bg border border-button-stroke rounded-xl p-1 mb-7">
               {['login', 'register'].map(tab => (
                 <button
@@ -168,9 +246,13 @@ export default function GetStarted({ onClose }) {
                 className="w-full bg-button-bg border border-button-stroke rounded-xl px-4 py-3 text-sm text-accent-text placeholder:text-main-text outline-none focus:border-accent-text transition-all disabled:opacity-50"
               />
               {authMode === 'login' && (
-                <p className="text-right text-xs text-main-text hover:text-accent-text transition cursor-pointer -mt-1">
+                <button
+                  type="button"
+                  onClick={() => { setForgotMode(true); setAuthError(''); }}
+                  className="text-right text-xs text-main-text hover:text-accent-text transition -mt-1 cursor-pointer self-end"
+                >
                   Forgot password?
-                </p>
+                </button>
               )}
               {authError && <p className="text-xs text-red-500">{authError}</p>}
               <button

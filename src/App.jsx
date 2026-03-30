@@ -10,6 +10,7 @@ import Main from './pages/Main';
 import Builder from './pages/Builder';
 import Ascii from './pages/Ascii';
 import Community from './pages/Community';
+import ResetPassword from './pages/ResetPassword';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import GetStarted from './components/GetStarted';
@@ -17,8 +18,8 @@ import UsernameSetup from './components/UsernameSetup';
 import Profile from './pages/Profile';
 
 function App() {
-  const [user, setUser] = useState(null);
-  const [showLogin, setShowLogin] = useState(false);
+  const [user,          setUser]          = useState(null);
+  const [showLogin,     setShowLogin]     = useState(false);
   const [needsUsername, setNeedsUsername] = useState(false);
 
   async function checkProfile(u) {
@@ -40,7 +41,7 @@ function App() {
     const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
       const u = session?.user || null;
       setUser(u);
-      if (event === 'SIGNED_IN') checkProfile(u);
+      if (event === 'SIGNED_IN')  checkProfile(u);
       if (event === 'SIGNED_OUT') setNeedsUsername(false);
     });
 
@@ -51,17 +52,17 @@ function App() {
     <>
       <Header user={user} />
       <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/builder" element={<Builder />} />
-        <Route path="/ascii" element={<Ascii user={user} onOpenLogin={() => setShowLogin(true)} />} />
-        <Route path="/community" element={<Community />} />
-        <Route path="/u/:username" element={<Profile currentUser={user} />} />
+        <Route path="/"               element={<Main />} />
+        <Route path="/builder"        element={<Builder />} />
+        <Route path="/ascii"          element={<Ascii user={user} onOpenLogin={() => setShowLogin(true)} />} />
+        <Route path="/community"      element={<Community />} />
+        <Route path="/u/:username"    element={<Profile currentUser={user} />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
       <Footer />
+
       {showLogin && <GetStarted onClose={() => setShowLogin(false)} />}
-      {needsUsername && user && (
-        <UsernameSetup user={user} onDone={() => setNeedsUsername(false)} />
-      )}
+      {needsUsername && user && <UsernameSetup user={user} onDone={() => setNeedsUsername(false)} />}
     </>
   );
 }
