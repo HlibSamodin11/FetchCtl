@@ -28,8 +28,6 @@ const tux = `
 ⠀⠀⠀⠀⠀⠉⠙⠊⠿⠛⠁⠀⠀⠀⠀⠀⠀⠀⠈⠻⠷⠿⠋⠀⠀⠀⠀⠀⠀`;
 
 function Footer() {
-  const weirdRef = useRef(null);
-
   return (
     <footer className="relative w-full bg-bg border-t border-button-stroke pt-16 pb-8 overflow-hidden">
       {/* watermark */}
