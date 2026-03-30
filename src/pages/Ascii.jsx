@@ -3,59 +3,54 @@ import { supabase } from '../supabaseClient';
 import asciiFile from '../assets/ascii.json';
 import AsciiFilters from '../components/AsciiFilters';
 
-function getArtSize(art) {
+const score = art => art.length * Math.max(...art.map(l => [...l].length));
+
+const bigLeft = id =>
+  id.split('').reduce((a, c, i) => a + c.charCodeAt(0) * (i + 1), 0) % 2 === 0;
+
+function pickBig(group) {
+  if (group.length < 3) return { big: group[0], smalls: group.slice(1) };
+  const [first, ...rest] = [...group].sort((a, b) => score(b.art) - score(a.art));
+  return { big: first, smalls: rest };
+}
+
+function cardHeight(art, big) {
   const rows = art.length;
-  const cols = Math.max(...art.map(line => [...line].length));
-  if (rows >= 20 || cols >= 50) return 'big';
-  if (rows >= 10 || cols >= 25) return 'medium';
-  return 'small';
+  const cols = Math.max(...art.map(l => [...l].length));
+  const tall = rows >= 20 || cols >= 50;
+  const mid  = rows >= 10 || cols >= 25;
+  if (big) return tall ? 480 : mid ? 380 : 280;
+  return tall ? 220 : mid ? 160 : 100;
 }
 
-function getBigLeft(id) {
-  const hash = id.split('').reduce((acc, ch, i) => acc + ch.charCodeAt(0) * (i + 1), 0);
-  return hash % 2 === 0;
-}
-
-function AsciiCard({ item, user, onOpenLogin, stretch = false }) {
+function AsciiCard({ item, user, onOpenLogin, big = false }) {
   const [copied, setCopied] = useState(false);
-  const [scale, setScale] = useState(1);
-  const [views, setViews] = useState(null);
-  const [likes, setLikes] = useState(0);
-  const [liked, setLiked] = useState(false);
+  const [scale,  setScale]  = useState(1);
+  const [views,  setViews]  = useState(null);
+  const [likes,  setLikes]  = useState(0);
+  const [liked,  setLiked]  = useState(false);
   const preRef = useRef(null);
   const boxRef = useRef(null);
 
-  const artSize = getArtSize(item.art);
-  const minHeight = artSize === 'big' ? 280 : artSize === 'medium' ? 160 : 80;
-  const maxHeight = minHeight * 1.5;
-
+  // count view when card scrolls into view
   useEffect(() => {
     const box = boxRef.current;
     if (!box) return;
-
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      observer.disconnect();
-
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      io.disconnect();
       supabase.rpc('count_view', { art: item.id }).then(() =>
-        supabase
-          .from('art_views')
-          .select('views')
-          .eq('art_id', item.id)
-          .single()
+        supabase.from('art_views').select('views').eq('art_id', item.id).single()
           .then(({ data }) => data && setViews(data.views))
       );
     }, { threshold: 0.5 });
-
-    observer.observe(box);
-    return () => observer.disconnect();
+    io.observe(box);
+    return () => io.disconnect();
   }, [item.id]);
 
+  // load likes
   useEffect(() => {
-    supabase
-      .from('art_likes')
-      .select('user_id')
-      .eq('art_id', item.id)
+    supabase.from('art_likes').select('user_id').eq('art_id', item.id)
       .then(({ data }) => {
         if (!data) return;
         setLikes(data.length);
@@ -63,64 +58,56 @@ function AsciiCard({ item, user, onOpenLogin, stretch = false }) {
       });
   }, [item.id, user]);
 
+  // scale art to fit the box
   useEffect(() => {
     const pre = preRef.current;
     const box = boxRef.current;
     if (!pre || !box) return;
-
-    const recalc = () => {
+    const fit = () => {
       if (!pre.scrollWidth || !pre.scrollHeight) return;
-      const scaleX = box.clientWidth / pre.scrollWidth;
-      const scaleY = box.clientHeight / pre.scrollHeight;
-      setScale(Math.min(scaleX, scaleY, 1));
+      setScale(Math.min(box.clientWidth / pre.scrollWidth, box.clientHeight / pre.scrollHeight, 1));
     };
-
-    const timer = setTimeout(recalc, 50);
-    const ro = new ResizeObserver(recalc);
+    const t = setTimeout(fit, 50);
+    const ro = new ResizeObserver(fit);
     ro.observe(box);
-    return () => { clearTimeout(timer); ro.disconnect(); };
+    return () => { clearTimeout(t); ro.disconnect(); };
   }, []);
 
-  function handleCopy() {
+  function copy() {
     navigator.clipboard.writeText(item.art.join('\n'));
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   }
 
-  async function handleLike() {
+  async function toggleLike() {
     if (!user) { onOpenLogin(); return; }
     if (liked) {
-      setLiked(false);
-      setLikes(n => n - 1);
+      setLiked(false); setLikes(n => n - 1);
       await supabase.from('art_likes').delete().eq('art_id', item.id).eq('user_id', user.id);
     } else {
-      setLiked(true);
-      setLikes(n => n + 1);
+      setLiked(true); setLikes(n => n + 1);
       await supabase.from('art_likes').insert({ art_id: item.id, user_id: user.id });
     }
   }
 
   return (
-    // stretch=true only on the big card in a trio so it fills the column
-    // otherwise the card shrinks to fit its content naturally
-    <div className={`font-jetbrains relative group w-full rounded-2xl border border-reverse/50 hover:border-reverse/70 hover:shadow-md hover:shadow-zinc-700/40 flex flex-col ${stretch ? 'h-full' : ''}`}>
-
+    <div className="font-jetbrains relative group w-full flex flex-col flex-1 rounded-2xl border border-reverse/50 hover:border-reverse/70 hover:shadow-md hover:shadow-zinc-700/40">
       <button
-        onClick={handleCopy}
+        onClick={copy}
         className={`absolute top-3 right-3 px-3 py-3 rounded-4xl border text-xs transition-all duration-500 z-10 ${
           copied ? 'bg-green-500 border-green-500 text-white' : 'bg-accent-bg hover:border-accent-text/30'
         }`}
       >
         {copied
-          ? <svg className="w-4 h-4"><use href="/sprite.svg#icon-tick" className="fill-accent-text" /></svg>
+          ? <svg className="w-4 h-4"><use href="/sprite.svg#icon-tick"  className="fill-accent-text" /></svg>
           : <svg className="w-5 h-5"><use href="/sprite.svg#icon-copy" className="fill-accent-text" /></svg>
         }
       </button>
 
       <div
         ref={boxRef}
-        className={`w-full flex items-center justify-center overflow-hidden mt-10 mb-4 px-4 ${stretch ? 'flex-1' : ''}`}
-        style={{ minHeight: `${minHeight}px`, maxHeight: stretch ? 'none' : `${maxHeight}px` }}
+        className="w-full flex-1 flex items-center justify-center overflow-hidden mt-10 mb-4 px-4"
+        style={{ minHeight: cardHeight(item.art, big) }}
       >
         <pre
           ref={preRef}
@@ -140,7 +127,7 @@ function AsciiCard({ item, user, onOpenLogin, stretch = false }) {
             <svg className="h-3 w-3"><use href="/sprite.svg#icon-user" className="fill-reverse/50" /></svg>
             FetchCtl (web)
           </p>
-          <button onClick={handleLike} className="flex items-center gap-2 cursor-pointer hover:scale-110 transition-all">
+          <button onClick={toggleLike} className="flex items-center gap-2 cursor-pointer hover:scale-110 transition-all">
             <svg className="h-3 w-3">
               <use href="/sprite.svg#icon-heart" className={liked ? 'fill-[#E85555]' : 'fill-reverse/30'} />
             </svg>
@@ -168,28 +155,23 @@ function AsciiCard({ item, user, onOpenLogin, stretch = false }) {
   );
 }
 
-function CardGroup({ big, small1, small2, user, onOpenLogin, bigLeft }) {
+function CardGroup({ big, smalls, user, onOpenLogin, left }) {
+  const BigCard = (
+    <div className="md:flex-[2] min-w-0 flex">
+      <AsciiCard item={big} user={user} onOpenLogin={onOpenLogin} big />
+    </div>
+  );
+  const SmallCards = (
+    <div className="md:flex-[1] min-w-0 flex flex-col gap-6">
+      {smalls.map(item => (
+        <AsciiCard key={item.id} item={item} user={user} onOpenLogin={onOpenLogin} />
+      ))}
+    </div>
+  );
+
   return (
-    <div className="flex gap-6 w-full">
-
-      {bigLeft && (
-        <div className="flex-[2] min-w-0">
-          {/* big card stretches to match the small column height */}
-          <AsciiCard item={big} user={user} onOpenLogin={onOpenLogin} stretch />
-        </div>
-      )}
-
-      <div className="flex-[1] min-w-0 flex flex-col gap-6">
-        <AsciiCard item={small1} user={user} onOpenLogin={onOpenLogin} />
-        {small2 && <AsciiCard item={small2} user={user} onOpenLogin={onOpenLogin} />}
-      </div>
-
-      {!bigLeft && (
-        <div className="flex-[2] min-w-0">
-          <AsciiCard item={big} user={user} onOpenLogin={onOpenLogin} stretch />
-        </div>
-      )}
-
+    <div className="flex flex-col md:flex-row md:items-stretch gap-6 w-full">
+      {left ? <>{BigCard}{SmallCards}</> : <>{SmallCards}{BigCard}</>}
     </div>
   );
 }
@@ -199,54 +181,43 @@ function Ascii({ user, onOpenLogin }) {
     <section className="bg-bg py-20 flex flex-col items-center px-6 md:px-12">
       <AsciiFilters items={asciiFile.ascii}>
         {filtered => {
-          if (!filtered.length) {
+          if (!filtered.length)
             return <p className="text-main-text text-sm text-center">no results found</p>;
-          }
 
           const groups = [];
-          for (let i = 0; i < filtered.length; i += 3) {
+          for (let i = 0; i < filtered.length; i += 3)
             groups.push(filtered.slice(i, i + 3));
-          }
 
           return (
             <div className="container flex flex-col gap-6">
               {groups.map((group, gi) => {
-                const [big, small1, small2] = group;
-                const bigLeft = getBigLeft(big.id);
+                const { big, smalls } = pickBig(group);
 
-                // lone card — shrinks to content, no stretch
-                if (!small1) {
-                  return (
-                    <div key={gi}>
-                      <AsciiCard item={big} user={user} onOpenLogin={onOpenLogin} />
+                if (smalls.length === 0) return (
+                  <div key={gi}>
+                    <AsciiCard item={big} user={user} onOpenLogin={onOpenLogin} />
+                  </div>
+                );
+
+                if (smalls.length === 1) return (
+                  <div key={gi} className="flex flex-col md:flex-row md:items-stretch gap-6">
+                    <div className="md:flex-1 min-w-0 flex">
+                      <AsciiCard item={big} user={user} onOpenLogin={onOpenLogin} big />
                     </div>
-                  );
-                }
-
-                // two cards — equal halves, both shrink to content
-                if (!small2) {
-                  return (
-                    <div key={gi} className="flex gap-6">
-                      <div className="flex-1 min-w-0">
-                        <AsciiCard item={big} user={user} onOpenLogin={onOpenLogin} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <AsciiCard item={small1} user={user} onOpenLogin={onOpenLogin} />
-                      </div>
+                    <div className="md:flex-1 min-w-0 flex">
+                      <AsciiCard item={smalls[0]} user={user} onOpenLogin={onOpenLogin} big />
                     </div>
-                  );
-                }
+                  </div>
+                );
 
-                // full trio — big card stretches to match small column
                 return (
                   <CardGroup
                     key={gi}
                     big={big}
-                    small1={small1}
-                    small2={small2}
+                    smalls={smalls}
                     user={user}
                     onOpenLogin={onOpenLogin}
-                    bigLeft={bigLeft}
+                    left={bigLeft(big.id)}
                   />
                 );
               })}

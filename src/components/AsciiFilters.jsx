@@ -5,32 +5,32 @@ const colorOptions = [
   { label: 'Uncoloured', value: 'un-coloured' },
 ];
 
-const animOptions = [
-  { label: 'Animated', value: 'animated' },
-  { label: 'Static', value: 'un-animated' },
-];
-
 function AsciiFilters({ items, children }) {
   const [search, setSearch] = useState('');
   const [colors, setColors] = useState([]);
-  const [anims, setAnims] = useState([]);
 
   function toggleColor(val) {
-    setColors(prev => prev.includes(val) ? prev.filter(f => f !== val) : [...prev, val]);
+    setColors(prev =>
+      prev.includes(val)
+        ? prev.filter(f => f !== val)
+        : [...prev, val]
+    );
   }
 
-  function toggleAnim(val) {
-    setAnims(prev => prev.includes(val) ? prev.filter(f => f !== val) : [...prev, val]);
-  }
-
-  // split by comma, slash or space — so 'cat cute' and 'cat, cute' both work
-  const terms = search.split(/[,/ ]+/).map(t => t.trim().toLowerCase()).filter(Boolean);
+  // split by comma, slash or space
+  const terms = search
+    .split(/[,/ ]+/)
+    .map(t => t.trim().toLowerCase())
+    .filter(Boolean);
 
   const filtered = items.filter(item => {
     if (colors.length && !colors.includes(item.color)) return false;
-    if (anims.length && !anims.includes(item.animation)) return false;
     if (!terms.length) return true;
-    return terms.every(t => item.name.toLowerCase().includes(t) || item.tags.some(tag => tag.toLowerCase().includes(t)));
+
+    return terms.every(t =>
+      item.name.toLowerCase().includes(t) ||
+      item.tags.some(tag => tag.toLowerCase().includes(t))
+    );
   });
 
   return (
@@ -59,28 +59,17 @@ function AsciiFilters({ items, children }) {
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-accent-text/50 text-xs tracking-widest uppercase mr-1">Filter</span>
+          <span className="text-accent-text/50 text-xs tracking-widest uppercase mr-1">
+            Filter
+          </span>
           <div className="w-px h-3 bg-accent-text/15 mr-1" />
+
           {colorOptions.map(f => (
             <button
               key={f.value}
               onClick={() => toggleColor(f.value)}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all duration-200 ${
                 colors.includes(f.value)
-                  ? 'bg-accent-text text-bg border-accent-text'
-                  : 'bg-accent-bg text-accent-text border-accent-text/20 hover:border-accent-text/50'
-              }`}
-            >
-              {f.label}
-            </button>
-          ))}
-          <div className="w-px h-3 bg-accent-text/15" />
-          {animOptions.map(f => (
-            <button
-              key={f.value}
-              onClick={() => toggleAnim(f.value)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all duration-200 ${
-                anims.includes(f.value)
                   ? 'bg-accent-text text-bg border-accent-text'
                   : 'bg-accent-bg text-accent-text border-accent-text/20 hover:border-accent-text/50'
               }`}
