@@ -16,7 +16,7 @@ function AsciiFilters({ items, children }) {
     );
   }
 
-  // split by comma, slash or space
+  // Split by comma, slash, or space
   const terms = search
     .split(/[,/ ]+/)
     .map((t) => t.trim().toLowerCase())
@@ -25,7 +25,6 @@ function AsciiFilters({ items, children }) {
   const filtered = items.filter((item) => {
     if (colors.length && !colors.includes(item.color)) return false;
     if (!terms.length) return true;
-
     return terms.every(
       (t) =>
         item.name.toLowerCase().includes(t) ||
@@ -35,14 +34,12 @@ function AsciiFilters({ items, children }) {
 
   return (
     <>
-      <div className="container w-full mx-auto flex flex-row gap-10 mb-12 ">
-        <div className="flex flex-col w-1/2 gap-4 border-r border-accent-text/10 pr-10">
-          <div className="relative ">
+      <div className="container w-full mx-auto flex flex-col md:flex-row gap-10 mb-12">
+        {/* Search + filter */}
+        <div className="flex flex-col w-full md:w-1/2 gap-4 border-r border-accent-text/10 pr-10">
+          <div className="relative">
             <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none scale-x-[-1]">
-              <use
-                href="/sprite.svg#icon-search"
-                className="fill-accent-text/40"
-              />
+              <use href="/sprite.svg#icon-search" className="fill-accent-text/40" />
             </svg>
             <input
               type="text"
@@ -66,7 +63,6 @@ function AsciiFilters({ items, children }) {
               Filter
             </span>
             <div className="w-px h-3 bg-accent-text/15 mr-1" />
-
             {colorOptions.map((f) => (
               <button
                 key={f.value}
@@ -82,7 +78,10 @@ function AsciiFilters({ items, children }) {
             ))}
           </div>
         </div>
-        <ImgToAscii />
+
+        <div className="w-full md:w-1/2">
+          <ImgToAscii />
+        </div>
       </div>
 
       {children(filtered)}

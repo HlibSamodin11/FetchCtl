@@ -12,24 +12,25 @@ function SideMenu({ shown, setShown, user }) {
     { label: 'Community', path: '/community' },
   ];
   const [showForm, setShowForm] = useState(false);
+
+  // Lock body scroll when menu is open
   useEffect(() => {
-    if (shown) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    document.body.style.overflow = shown ? 'hidden' : '';
     return () => {
       document.body.style.overflow = '';
     };
   }, [shown]);
 
-  useEffect((e) => {
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        setShown(false);
-      }
-    });
-  });
+  // Escape key closes menu — fixed: proper cleanup + no stale listener leak
+  useEffect(() => {
+    if (!shown) return;
+    const handler = (e) => {
+      if (e.key === 'Escape') setShown(false);
+    };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [shown, setShown]);
+
   return (
     <div
       className={`flex justify-end fixed z-20 inset-0 bg-bg/50 backdrop-blur-sm transition-opacity duration-300 ${
@@ -41,7 +42,7 @@ function SideMenu({ shown, setShown, user }) {
     >
       {showForm && <GetStarted onClose={() => setShowForm(false)} />}
       <div
-        className={`bg-bg w-screen text-accent-text  sm:w-120 h-full flex flex-col p-7.5 transform transition-transform duration-300  ${
+        className={`bg-bg w-screen text-accent-text sm:w-120 h-full flex flex-col p-7.5 transform transition-transform duration-300 ${
           shown ? 'translate-x-0' : 'translate-x-full'
         }`}
         onClick={(e) => e.stopPropagation()}
@@ -62,10 +63,8 @@ function SideMenu({ shown, setShown, user }) {
             <div className="flex gap-5">
               {!user ? (
                 <button
-                  className="flex group py-2 text-get-started-text bg-get-started-bg px-5 rounded-4xl font-bold  items-center gap-2 transition-all hover:bg-transparent hover:ring-1 hover:ring-accent-text hover:text-accent-text hover:cursor-pointer"
-                  onClick={() => {
-                    setShowForm(true);
-                  }}
+                  className="flex group py-2 text-get-started-text bg-get-started-bg px-5 rounded-4xl font-bold items-center gap-2 transition-all hover:bg-transparent hover:ring-1 hover:ring-accent-text hover:text-accent-text hover:cursor-pointer"
+                  onClick={() => setShowForm(true)}
                 >
                   Get Started
                   <svg className="w-5 h-5">
@@ -83,12 +82,11 @@ function SideMenu({ shown, setShown, user }) {
           </div>
           <div>
             <ul className="flex flex-col text-main-text gap-10">
-              {navItems.map((item, i) => (
-                <li onClick={() => setShown(false)}>
+              {navItems.map((item) => (
+                <li key={item.path} onClick={() => setShown(false)}>
                   <NavLink
                     to={item.path}
-                    key={`menu-${item.path}`}
-                    className="cursor-pointer text-4xl  uppercase font-grotesk font-black hover:text-accent-text transition-colors"
+                    className="cursor-pointer text-4xl uppercase font-grotesk font-black hover:text-accent-text transition-colors"
                   >
                     {item.label}
                   </NavLink>
@@ -97,13 +95,11 @@ function SideMenu({ shown, setShown, user }) {
             </ul>
           </div>
           <div className="border-t border-reverse/50 pt-4 flex items-center justify-between">
-            {' '}
             <a
               href="https://github.com/HlibSamodin11/FetchCtl"
               target="_blank"
               rel="noreferrer"
-              className="inline-block 
-              hover:opacity-70 transition"
+              className="inline-block hover:opacity-70 transition"
             >
               <svg
                 className="w-6 h-6 text-accent-text"
