@@ -14,6 +14,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import GetStarted from './components/GetStarted';
 import UsernameSetup from './components/UsernameSetup';
+import Profile from './pages/Profile';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -54,6 +55,7 @@ function App() {
         <Route path="/builder" element={<Builder />} />
         <Route path="/ascii" element={<Ascii user={user} onOpenLogin={() => setShowLogin(true)} />} />
         <Route path="/community" element={<Community />} />
+        <Route path="/u/:username" element={<Profile currentUser={user} />} />
       </Routes>
       <Footer />
       {showLogin && <GetStarted onClose={() => setShowLogin(false)} />}

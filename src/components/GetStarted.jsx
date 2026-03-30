@@ -3,22 +3,20 @@ import { supabase } from '../supabaseClient';
 import UsernameSetup from './UsernameSetup';
 
 export default function GetStarted({ onClose }) {
-  const [authMode, setAuthMode] = useState('login');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [authError, setAuthError] = useState('');
-  const [success, setSuccess] = useState(false);
-  const [pendingUser, setPendingUser] = useState(null); // user waiting for username
+  const [authMode,    setAuthMode]    = useState('login');
+  const [email,       setEmail]       = useState('');
+  const [password,    setPassword]    = useState('');
+  const [loading,     setLoading]     = useState(false);
+  const [authError,   setAuthError]   = useState('');
+  const [success,     setSuccess]     = useState(false);
+  const [pendingUser, setPendingUser] = useState(null); // waiting on username pick
 
   const cooldownRef = useRef(false);
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && !pendingUser) onClose();
-    };
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    const onKey = e => { if (e.key === 'Escape' && !pendingUser) onClose(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
   }, [onClose, pendingUser]);
 
   async function checkAndProceed(user) {
@@ -29,11 +27,9 @@ export default function GetStarted({ onClose }) {
       .single();
 
     if (data?.username) {
-      // already has a profile, just close
       setSuccess(true);
-      setTimeout(() => onClose(), 1800);
+      setTimeout(onClose, 1800);
     } else {
-      // needs to pick a username
       setPendingUser(user);
     }
   }
@@ -53,15 +49,12 @@ export default function GetStarted({ onClose }) {
 
     try {
       let data, error;
-
       if (authMode === 'login') {
         ({ data, error } = await supabase.auth.signInWithPassword({ email: email.trim(), password }));
       } else {
         ({ data, error } = await supabase.auth.signUp({ email: email.trim(), password }));
       }
-
       if (error) throw error;
-
       await checkAndProceed(data.user);
     } catch (err) {
       setAuthError(err.message);
@@ -79,16 +72,13 @@ export default function GetStarted({ onClose }) {
     if (error) setAuthError(error.message);
   }
 
-  // username was set — done
   function onUsernameDone() {
     setSuccess(true);
     setPendingUser(null);
-    setTimeout(() => onClose(), 1800);
+    setTimeout(onClose, 1800);
   }
 
-  if (pendingUser) {
-    return <UsernameSetup user={pendingUser} onDone={onUsernameDone} />;
-  }
+  if (pendingUser) return <UsernameSetup user={pendingUser} onDone={onUsernameDone} />;
 
   return (
     <div
@@ -97,7 +87,7 @@ export default function GetStarted({ onClose }) {
     >
       <div
         className="relative w-96 bg-accent-bg border border-button-stroke rounded-2xl px-9 py-10 transition-all duration-300"
-        onClick={(e) => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
       >
         {success ? (
           <div className="flex flex-col items-center justify-center gap-4 py-6 animate-fade-in">
@@ -115,15 +105,14 @@ export default function GetStarted({ onClose }) {
           <>
             <div className="absolute -top-px left-1/2 -translate-x-1/2 bg-accent-bg border border-button-stroke border-t-0 rounded-b-xl px-4 py-1 flex items-center gap-2">
               <div className="rounded-full bg-accent-text p-0.5">
-                <svg className="w-3.5 h-3.5">
-                  <use href="/sprite.svg#icon-logo" />
-                </svg>
+                <svg className="w-3.5 h-3.5"><use href="/sprite.svg#icon-logo" /></svg>
               </div>
               <span className="text-xs font-bold italic text-accent-text">FetchCtl</span>
             </div>
 
+            {/* login / register tabs */}
             <div className="flex gap-1 bg-accent-bg border border-button-stroke rounded-xl p-1 mb-7">
-              {['login', 'register'].map((tab) => (
+              {['login', 'register'].map(tab => (
                 <button
                   key={tab}
                   onClick={() => { setAuthMode(tab); setAuthError(''); }}
@@ -163,20 +152,20 @@ export default function GetStarted({ onClose }) {
 
             <form onSubmit={handleAuth} className="flex flex-col gap-3">
               <input
-                className="bg-button-bg border border-button-stroke rounded-xl px-4 py-3 text-sm text-accent-text placeholder:text-main-text outline-none focus:border-accent-text transition-all disabled:opacity-50"
                 type="email"
                 placeholder="Email"
                 value={email}
                 disabled={loading}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={e => setEmail(e.target.value)}
+                className="bg-button-bg border border-button-stroke rounded-xl px-4 py-3 text-sm text-accent-text placeholder:text-main-text outline-none focus:border-accent-text transition-all disabled:opacity-50"
               />
               <input
-                className="w-full bg-button-bg border border-button-stroke rounded-xl px-4 py-3 text-sm text-accent-text placeholder:text-main-text outline-none focus:border-accent-text transition-all disabled:opacity-50"
                 type="password"
                 placeholder="Password"
                 value={password}
                 disabled={loading}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={e => setPassword(e.target.value)}
+                className="w-full bg-button-bg border border-button-stroke rounded-xl px-4 py-3 text-sm text-accent-text placeholder:text-main-text outline-none focus:border-accent-text transition-all disabled:opacity-50"
               />
               {authMode === 'login' && (
                 <p className="text-right text-xs text-main-text hover:text-accent-text transition cursor-pointer -mt-1">
@@ -190,8 +179,9 @@ export default function GetStarted({ onClose }) {
                 className="mt-1 w-full py-3 bg-get-started-bg text-get-started-text ring-1 ring-black/20 rounded-xl text-sm font-bold transition-all hover:opacity-80 disabled:opacity-50 cursor-pointer"
               >
                 {loading
-                  ? authMode === 'login' ? 'Signing you in...' : 'Creating account...'
-                  : authMode === 'login' ? 'Log in' : 'Register'}
+                  ? (authMode === 'login' ? 'Signing you in...' : 'Creating account...')
+                  : (authMode === 'login' ? 'Log in' : 'Register')
+                }
               </button>
             </form>
 

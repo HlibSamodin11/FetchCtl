@@ -9,24 +9,21 @@ function ThemeSwitch({ from }) {
     document.documentElement.setAttribute('data-theme', saved);
   }, []);
 
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-
-    setTheme(newTheme);
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-  };
+  function toggleTheme() {
+    const next = theme === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  }
 
   return (
     <button
       onClick={toggleTheme}
-      className={`hidden ${from === 'header' ? 'lg:inline-block' : 'inline-block'} bg-button-bg rounded-2xl p-3 ring transition-all ring-button-stroke group hover:ring-accent-text cursor-pointer `}
+      className={`hidden ${from === 'header' ? 'lg:inline-block' : 'inline-block'} bg-button-bg rounded-2xl p-3 ring transition-all ring-button-stroke group hover:ring-accent-text cursor-pointer`}
     >
       <svg className="w-5 h-5">
         <use
-          href={
-            theme === 'dark' ? '/sprite.svg#icon-sun' : '/sprite.svg#icon-moon'
-          }
+          href={theme === 'dark' ? '/sprite.svg#icon-sun' : '/sprite.svg#icon-moon'}
           className="fill-accent-text"
         />
       </svg>

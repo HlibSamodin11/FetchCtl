@@ -2,7 +2,7 @@ import { useState } from 'react';
 import ImgToAscii from './ImgToAscii';
 
 const colorOptions = [
-  { label: 'Coloured', value: 'coloured' },
+  { label: 'Coloured',   value: 'coloured' },
   { label: 'Uncoloured', value: 'un-coloured' },
 ];
 
@@ -11,31 +11,27 @@ function AsciiFilters({ items, children }) {
   const [colors, setColors] = useState([]);
 
   function toggleColor(val) {
-    setColors((prev) =>
-      prev.includes(val) ? prev.filter((f) => f !== val) : [...prev, val],
-    );
+    setColors(prev => prev.includes(val) ? prev.filter(f => f !== val) : [...prev, val]);
   }
 
-  // Split by comma, slash, or space
+  // split by comma, slash, or space — so "cat, cute" or "cat cute" both work
   const terms = search
     .split(/[,/ ]+/)
-    .map((t) => t.trim().toLowerCase())
+    .map(t => t.trim().toLowerCase())
     .filter(Boolean);
 
-  const filtered = items.filter((item) => {
+  const filtered = items.filter(item => {
     if (colors.length && !colors.includes(item.color)) return false;
     if (!terms.length) return true;
-    return terms.every(
-      (t) =>
-        item.name.toLowerCase().includes(t) ||
-        item.tags.some((tag) => tag.toLowerCase().includes(t)),
+    return terms.every(t =>
+      item.name.toLowerCase().includes(t) ||
+      item.tags.some(tag => tag.toLowerCase().includes(t))
     );
   });
 
   return (
     <>
       <div className="container w-full mx-auto flex flex-col md:flex-row gap-10 mb-12">
-        {/* Search + filter */}
         <div className="flex flex-col w-full md:w-1/2 gap-4 border-r border-accent-text/10 pr-10">
           <div className="relative">
             <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none scale-x-[-1]">
@@ -45,7 +41,7 @@ function AsciiFilters({ items, children }) {
               type="text"
               placeholder="search by name or tag — try 'cat cute' or 'cat, cute'"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={e => setSearch(e.target.value)}
               className="w-full bg-accent-bg border border-accent-text/15 text-accent-text text-xs rounded-xl pl-9 pr-8 py-2.5 outline-none focus:border-accent-text/40 transition-colors placeholder:text-accent-text/30"
             />
             {search && (
@@ -59,11 +55,9 @@ function AsciiFilters({ items, children }) {
           </div>
 
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-accent-text/50 text-xs tracking-widest uppercase mr-1">
-              Filter
-            </span>
+            <span className="text-accent-text/50 text-xs tracking-widest uppercase mr-1">Filter</span>
             <div className="w-px h-3 bg-accent-text/15 mr-1" />
-            {colorOptions.map((f) => (
+            {colorOptions.map(f => (
               <button
                 key={f.value}
                 onClick={() => toggleColor(f.value)}

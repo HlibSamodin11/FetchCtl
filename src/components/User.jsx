@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 
 function User({ user, from }) {
-  const [open, setOpen] = useState(false);
+  const [open,     setOpen]     = useState(false);
   const [username, setUsername] = useState(null);
   const dropdownRef = useRef(null);
+  const navigate    = useNavigate();
 
   useEffect(() => {
     if (!user) return;
@@ -16,18 +18,17 @@ function User({ user, from }) {
       .then(({ data }) => data && setUsername(data.username));
   }, [user]);
 
-  const handleLogout = async () => {
+  async function handleLogout() {
     await supabase.auth.signOut();
-  };
+  }
 
+  // close on outside click
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setOpen(false);
-      }
+    const onDown = e => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setOpen(false);
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', onDown);
+    return () => document.removeEventListener('mousedown', onDown);
   }, []);
 
   return (
@@ -36,7 +37,7 @@ function User({ user, from }) {
       ref={dropdownRef}
     >
       <button
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={() => setOpen(prev => !prev)}
         className="bg-button-bg rounded-2xl p-3 ring transition-all ring-button-stroke hover:ring-accent-text"
       >
         <svg className="w-5 h-5">
@@ -53,7 +54,10 @@ function User({ user, from }) {
             }
           </div>
 
-          <button className="w-full text-left px-4 py-2 hover:bg-accent-bg text-sm">
+          <button
+            onClick={() => { setOpen(false); navigate(`/u/${username}`); }}
+            className="w-full text-left px-4 py-2 hover:bg-accent-bg text-sm"
+          >
             Profile
           </button>
           <button className="w-full text-left px-4 py-2 hover:bg-accent-bg text-sm">
