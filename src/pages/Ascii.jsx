@@ -6,7 +6,7 @@ import AsciiFilters from '../components/AsciiFilters';
 const score = art => art.length * Math.max(...art.map(l => [...l].length));
 
 const bigLeft = id =>
-  id.split('').reduce((a, c, i) => a + c.charCodeAt(0) * (i + 1), 0) % 2 === 0;
+  id.split('').reduce((a, c) => a ^ c.charCodeAt(0), 0) % 2 === 0;
 
 function pickBig(group) {
   if (group.length < 3) return { big: group[0], smalls: group.slice(1) };
@@ -32,7 +32,6 @@ function AsciiCard({ item, user, onOpenLogin, big = false }) {
   const preRef = useRef(null);
   const boxRef = useRef(null);
 
-  // count view when card scrolls into view
   useEffect(() => {
     const box = boxRef.current;
     if (!box) return;
@@ -48,7 +47,6 @@ function AsciiCard({ item, user, onOpenLogin, big = false }) {
     return () => io.disconnect();
   }, [item.id]);
 
-  // load likes
   useEffect(() => {
     supabase.from('art_likes').select('user_id').eq('art_id', item.id)
       .then(({ data }) => {
@@ -58,7 +56,6 @@ function AsciiCard({ item, user, onOpenLogin, big = false }) {
       });
   }, [item.id, user]);
 
-  // scale art to fit the box
   useEffect(() => {
     const pre = preRef.current;
     const box = boxRef.current;
@@ -99,7 +96,7 @@ function AsciiCard({ item, user, onOpenLogin, big = false }) {
         }`}
       >
         {copied
-          ? <svg className="w-4 h-4"><use href="/sprite.svg#icon-tick"  className="fill-accent-text" /></svg>
+          ? <svg className="w-4 h-4"><use href="/sprite.svg#icon-tick" className="fill-accent-text" /></svg>
           : <svg className="w-5 h-5"><use href="/sprite.svg#icon-copy" className="fill-accent-text" /></svg>
         }
       </button>
