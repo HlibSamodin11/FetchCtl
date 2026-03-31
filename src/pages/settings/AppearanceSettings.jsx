@@ -30,7 +30,7 @@ function AppearanceSettings() {
         <div className="p-5 rounded-2xl bg-area border border-area-border">
           <h3 className="pb-4">Theme</h3>
 
-          <div className="flex gap-2">
+          <div className="flex flex-col items-start sm:flex-row gap-2 ">
             <button
               onClick={() => changeTheme('dark')}
               className={`${btnBase} ${theme === 'dark' ? active : inactive}`}

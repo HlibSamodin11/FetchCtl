@@ -22,7 +22,7 @@ function Settings({ user }) {
   ];
 
   return (
-    <section className="bg-bg w-full h-screen font-grotesk text-main-text flex justify-center py-10">
+    <section className="bg-bg w-full min-h-screen font-grotesk text-main-text flex justify-center py-10 px-6 md:px-12">
       <div className="container">
         <header>
           <h1
@@ -39,7 +39,7 @@ function Settings({ user }) {
           </h1>
         </header>
 
-        <div className="flex gap-10 mt-10">
+        <div className="flex gap-10 mt-10 flex-wrap">
           {/* nav */}
           <div className="w-64">
             <nav className="flex flex-col gap-2 text-sm">

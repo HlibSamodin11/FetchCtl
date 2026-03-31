@@ -4,7 +4,7 @@ import { supabase } from '../../supabaseClient';
 function Switch({ label, desc, value, onToggle, disabled, icon }) {
   return (
     <div className="p-5 rounded-2xl bg-area border border-area-border space-y-4">
-      <div className="flex items-center justify-between py-3">
+      <div className="flex items-center justify-between py-3 gap-10">
         <div className="flex gap-2">
           <svg className="w-5 h-5 my-1">
             <use
@@ -22,7 +22,7 @@ function Switch({ label, desc, value, onToggle, disabled, icon }) {
           disabled={disabled}
           onClick={onToggle}
           className={`
-            w-14 h-7 flex items-center rounded-full p-1 transition-colors
+            w-14 h-7 flex items-center rounded-full p-1 transition-colors flex-shrink-0
             ${value ? 'bg-accent-text' : 'bg-button-bg'}
             ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
           `}
