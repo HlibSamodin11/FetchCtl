@@ -4,52 +4,79 @@
   font-family: 'JetBrains Mono', monospace;
 }
 
+.font-grotesk {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
 @theme {
   /* shared across both themes */
-  --color-main-text:        #8C8C8C;
-  --color-logo:             #F2F2F2;
+  --color-main-text: #8C8C8C;
+  --color-logo: #F2F2F2;
   --color-get-started-text: #0D0D0D;
 
   /* dark (default) */
-  --color-reverse:     #ffffff;
-  --color-bg:          #0F0F0F;
+  --color-reverse: #ffffff;
+  --color-area: #141414;
+  --color-area-border: #2C2726;
+  --color-bg: #0F0F0F;
   --color-accent-text: #F2F2F2;
-  --color-accent-bg:   #262626;
-  --color-pill-bg:     #0D0D0D;
-  --color-watermark:   rgba(227, 227, 227, 0.05);
+  --color-accent-bg: #262626;
+  --color-pill-bg: #0D0D0D;
+  --color-watermark: rgba(227, 227, 227, 0.05);
 
   --color-button-stroke: rgba(255, 255, 255, 0.15);
-  --color-button-bg:     rgba(255, 255, 255, 0.045);
+  --color-button-bg: rgba(255, 255, 255, 0.045);
 
   --color-get-started-bg: #F2F2F2;
 }
 
 [data-theme="light"] {
   --color-main-text: #8C8C8C;
-  --color-logo:      #F2F2F2;
+  --color-logo: #F2F2F2;
 
-  --color-reverse:     #000000;
-  --color-bg:          #FFFFFF;
+  --color-area: #f7f7f7;
+  --color-area-border: #e5e5e5;
+  --color-reverse: #000000;
+  --color-bg: #FFFFFF;
   --color-accent-text: #121212;
-  --color-accent-bg:   #F5F5F5;
-  --color-pill-bg:     #fff;
-  --color-watermark:   rgba(125, 125, 125, 0.05);
+  --color-accent-bg: #F5F5F5;
+  --color-pill-bg: #fff;
+  --color-watermark: rgba(125, 125, 125, 0.05);
 
   --color-button-stroke: rgba(0, 0, 0, 0.15);
-  --color-button-bg:     rgba(0, 0, 0, 0.045);
+  --color-button-bg: rgba(0, 0, 0, 0.045);
 
   --color-get-started-bg: #F2F2F2;
 }
 
 @keyframes fade-in {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes scale-in {
-  from { transform: scale(0.5); opacity: 0; }
-  to   { transform: scale(1);   opacity: 1; }
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
-.animate-fade-in  { animation: fade-in  0.3s ease forwards; }
-.animate-scale-in { animation: scale-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+.animate-fade-in {
+  animation: fade-in 0.3s ease forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}

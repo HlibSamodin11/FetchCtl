@@ -22,14 +22,12 @@ function Settings({ user }) {
   ];
 
   return (
-    <section className="bg-bg w-full h-screen text-main-text flex justify-center py-10">
+    <section className="bg-bg w-full h-screen font-grotesk text-main-text flex justify-center py-10">
       <div className="container">
         <header>
           <h1
             className="flex text-accent-text items-center gap-2 text-xl cursor-pointer"
-            onClick={() => {
-              navigate('/');
-            }}
+            onClick={() => navigate('/')}
           >
             <svg className="w-5 h-5">
               <use
@@ -41,7 +39,6 @@ function Settings({ user }) {
           </h1>
         </header>
 
-        {/* main */}
         <div className="flex gap-10 mt-10">
           {/* nav */}
           <div className="w-64">
@@ -55,8 +52,16 @@ function Settings({ user }) {
                     onClick={() => navigate(item.path)}
                     className={`
                       flex items-center gap-2 px-4 py-2 rounded-lg w-full transition-colors
-                      ${item.danger ? 'text-[#EF4444]/70' : 'text-accent-text'}
-                      ${isActive ? 'bg-button-bg' : 'hover:bg-button-bg/70'}
+
+                      ${
+                        item.danger
+                          ? isActive
+                            ? 'bg-[#EF4444]/10 text-[#EF4444]'
+                            : 'text-[#EF4444]/70 hover:bg-[#EF4444]/10'
+                          : isActive
+                            ? 'bg-button-bg text-accent-text'
+                            : 'text-accent-text hover:bg-button-bg/70'
+                      }
                     `}
                   >
                     <svg className="w-5 h-5">
@@ -64,7 +69,11 @@ function Settings({ user }) {
                         href={`/sprite.svg#${item.icon}`}
                         className={`
                           fill-none
-                          ${item.danger ? 'stroke-[#EF4444]/70' : 'stroke-main-text'}
+                          ${
+                            item.danger
+                              ? 'stroke-[#EF4444]'
+                              : 'stroke-main-text'
+                          }
                         `}
                       ></use>
                     </svg>
