@@ -27,7 +27,7 @@ function AppearanceSettings() {
       <p>Customize how the app looks.</p>
 
       <div className="pt-5">
-        <div className="p-5 rounded-2xl bg-area border border-area-bg">
+        <div className="p-5 rounded-2xl bg-area border border-area-border">
           <h3 className="pb-4">Theme</h3>
 
           <div className="flex gap-2">
