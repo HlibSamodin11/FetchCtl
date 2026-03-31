@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
 
 import asciiFile from '../assets/ascii.json';
 import AsciiCard from '../components/AsciiCard';
