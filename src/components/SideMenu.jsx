@@ -14,13 +14,11 @@ const navItems = [
 function SideMenu({ shown, setShown, user }) {
   const [showForm, setShowForm] = useState(false);
 
-  // lock body scroll while open
   useEffect(() => {
     document.body.style.overflow = shown ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [shown]);
 
-  // esc to close
   useEffect(() => {
     if (!shown) return;
     const onKey = e => { if (e.key === 'Escape') setShown(false); };
@@ -63,7 +61,7 @@ function SideMenu({ shown, setShown, user }) {
                   </svg>
                 </button>
               ) : (
-                <User user={user} />
+                <User user={user} onClose={() => setShown(false)} />
               )}
               <ThemeSwitch />
             </div>

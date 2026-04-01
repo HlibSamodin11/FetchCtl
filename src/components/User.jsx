@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 
-function User({ user, from }) {
+function User({ user, from, onClose }) {
   const [open, setOpen] = useState(false);
   const [username, setUsername] = useState(null);
   const dropdownRef = useRef(null);
@@ -22,7 +22,6 @@ function User({ user, from }) {
     await supabase.auth.signOut();
   }
 
-  // close on outside click
   useEffect(() => {
     const onDown = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target))
@@ -31,6 +30,12 @@ function User({ user, from }) {
     document.addEventListener('mousedown', onDown);
     return () => document.removeEventListener('mousedown', onDown);
   }, []);
+
+  function goTo(path) {
+    setOpen(false);
+    onClose?.();
+    navigate(path);
+  }
 
   return (
     <div
@@ -57,17 +62,15 @@ function User({ user, from }) {
           </div>
 
           <button
-            onClick={() => {
-              setOpen(false);
-              navigate(`/u/${username}`);
-            }}
-            className="w-full text-left px-4 py-2 hover:bg-accent-bg text-sm"
+            onClick={() => username && goTo(`/u/${username}`)}
+            disabled={!username}
+            className="w-full text-left px-4 py-2 hover:bg-accent-bg text-sm disabled:opacity-40 disabled:cursor-not-allowed"
           >
             Profile
           </button>
           <button
+            onClick={() => goTo('/settings')}
             className="w-full text-left px-4 py-2 hover:bg-accent-bg text-sm"
-            onClick={() => navigate('/settings')}
           >
             Settings
           </button>
