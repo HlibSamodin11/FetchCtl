@@ -23,11 +23,11 @@ import GetStarted from './components/GetStarted';
 import UsernameSetup from './components/UsernameSetup';
 import Profile from './pages/Profile';
 import SettingsLayout from './pages/settings/SettingsLayout';
-import ProfileSettings from './pages/settings/ProfileSettings';
 import PrivacySettings from './pages/settings/PrivacySettings';
 import NotificationSettings from './pages/settings/NotificationSettings';
 import AppearanceSettings from './pages/settings/AppearanceSettings';
 import DangerSettings from './pages/settings/DangerSettings';
+import EditProfile from './pages/EditProfile';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -79,10 +79,9 @@ function App() {
         </Route>
 
         <Route element={<FullscreenLayout />}>
+          <Route path="/edit-profile" element={<EditProfile user={user} />} />
           <Route path="/settings" element={<SettingsLayout />}>
-            <Route index element={<Navigate to="profile" replace />} />
-
-            <Route path="profile" element={<ProfileSettings />} />
+            <Route index element={<Navigate to="privacy" replace />} />
             <Route path="privacy" element={<PrivacySettings />} />
             <Route path="notifications" element={<NotificationSettings />} />
             <Route path="appearance" element={<AppearanceSettings />} />

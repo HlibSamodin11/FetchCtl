@@ -5,7 +5,6 @@ function Settings({ user }) {
   const location = useLocation();
 
   const navItems = [
-    { name: 'Profile', path: '/settings/profile', icon: 'icon-user' },
     { name: 'Privacy', path: '/settings/privacy', icon: 'icon-shield' },
     {
       name: 'Notifications',

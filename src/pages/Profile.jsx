@@ -4,7 +4,7 @@ import { supabase } from '../supabaseClient';
 
 import asciiFile from '../assets/ascii.json';
 import AsciiCard from '../components/AsciiCard';
-import EditProfile from '../components/EditProfile';
+import EditProfile from '../pages/EditProfile';
 
 // gradient banner derived from username — unique per user
 function bannerStyle(username) {
@@ -76,7 +76,6 @@ export default function Profile({ currentUser }) {
   const [likedIds, setLikedIds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
-  const [editing, setEditing] = useState(false);
 
   const isOwn = currentUser && profile && currentUser.id === profile.id;
 
@@ -146,18 +145,6 @@ export default function Profile({ currentUser }) {
 
   return (
     <div className="bg-bg min-h-screen">
-      {editing && (
-        <EditProfile
-          user={currentUser}
-          profile={profile}
-          onSave={(updated) => {
-            setProfile(updated);
-            setEditing(false);
-          }}
-          onClose={() => setEditing(false)}
-        />
-      )}
-
       <div
         className="w-full h-40 md:h-52"
         style={bannerStyle(profile.username)}
@@ -169,7 +156,7 @@ export default function Profile({ currentUser }) {
             <Avatar profile={profile} size={80} />
             {isOwn && (
               <button
-                onClick={() => setEditing(true)}
+                onClick={() => navigate('/edit-profile')}
                 className="text-xs px-4 py-2 rounded-xl border border-accent-text/20 text-accent-text hover:border-accent-text/50 transition-all font-jetbrains mb-1"
               >
                 edit profile
