@@ -123,7 +123,7 @@ export default function EditProfile({ user }) {
         <header className="py-10">
           <h1
             className="flex text-accent-text items-center gap-2 text-xl cursor-pointer"
-            onClick={() => navigate('/')}
+            onClick={() => navigate(`/u/${profile.username}`)}
           >
             <svg className="w-5 h-5">
               <use
