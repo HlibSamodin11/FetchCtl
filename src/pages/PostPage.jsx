@@ -16,6 +16,7 @@ export default function PostPage({ user, onOpenLogin }) {
   const [copied,      setCopied]      = useState(false);
   const [loading,     setLoading]     = useState(true);
 
+  // load post, views, likes
   useEffect(() => {
     async function load() {
       const { data } = await supabase
@@ -48,14 +49,17 @@ export default function PostPage({ user, onOpenLogin }) {
           .eq('user_id', user.id)
           .maybeSingle();
         setLiked(!!lk);
-
-        // only load comments if logged in (RLS enforces this too)
-        await loadComments();
       }
 
       setLoading(false);
     }
     load();
+  }, [id]);
+
+  // load comments separately — runs whenever user becomes available
+  useEffect(() => {
+    if (!user) return;
+    loadComments();
   }, [id, user]);
 
   async function loadComments() {
@@ -200,7 +204,6 @@ export default function PostPage({ user, onOpenLogin }) {
           {new Date(post.created_at).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
         </p>
 
-        {/* comments */}
         <div className="border-t border-accent-text/10 pt-8">
           <p className="text-[10px] uppercase tracking-widest text-main-text/30 font-jetbrains mb-6">
             Comments{user ? ` · ${comments.length}` : ''}
@@ -218,7 +221,6 @@ export default function PostPage({ user, onOpenLogin }) {
             </div>
           ) : (
             <>
-              {/* input */}
               <div className="flex gap-3 mb-8">
                 <div className="flex-1 flex flex-col gap-2">
                   <textarea
@@ -241,7 +243,6 @@ export default function PostPage({ user, onOpenLogin }) {
                 </div>
               </div>
 
-              {/* list */}
               <div className="flex flex-col gap-5">
                 {comments.length === 0 && (
                   <p className="text-main-text/20 text-sm">no comments yet — be the first</p>
