@@ -22,10 +22,13 @@ function ViewsCounter({ pageId = 'home' }) {
   };
 
   useEffect(() => {
-    countViews();
-    fetchViews();
-  }, [pageId]);
+    const run = async () => {
+      await countViews();
+      await fetchViews();
+    };
 
+    run();
+  }, [pageId]);
   useEffect(() => {
     let start = display;
     let end = count;
