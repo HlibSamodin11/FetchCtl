@@ -1,239 +1,400 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useState, useRef } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
-import asciiFile from '../assets/ascii.json';
-import AsciiCard from '../components/AsciiCard';
-import PostCard from '../components/PostCard';
 
-function bannerStyle(username) {
-  if (!username) return {};
-  const hue = [...username].reduce((a, c) => a + c.charCodeAt(0), 0) % 360;
-  const hue2 = (hue + 60) % 360;
-  return { background: `linear-gradient(135deg, hsl(${hue}deg 30% 12%) 0%, hsl(${hue2}deg 25% 18%) 50%, hsl(${hue}deg 20% 10%) 100%)` };
+
+const TABS = ['Overview', 'Posts', 'Liked', 'Following', 'Followers'];
+
+function timeAgo(dateStr) {
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  const days = Math.floor(hrs / 24);
+  if (days < 30) return `${days}d ago`;
+  return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 }
 
-function Avatar({ profile, size = 80 }) {
-  const { username, avatar_url } = profile;
-  const initials = username?.slice(0, 2).toUpperCase() ?? '??';
-  const hue = username ? [...username].reduce((a, c) => a + c.charCodeAt(0), 0) % 360 : 200;
-  if (avatar_url) return (
-    <img src={avatar_url} alt={username} className="rounded-full object-cover shrink-0"
-      style={{ width: size, height: size, boxShadow: `0 0 0 3px var(--color-bg), 0 0 0 4px hsl(${hue}deg 40% 30%)` }} />
-  );
+function joinedDate(dateStr) {
+  return new Date(dateStr).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+}
+
+function AsciiMiniCard({ content }) {
+  const preRef = useRef(null);
+  const boxRef = useRef(null);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const pre = preRef.current;
+    const box = boxRef.current;
+    if (!pre || !box) return;
+
+    const fit = () => {
+      if (!pre.scrollWidth || !pre.scrollHeight) return;
+      setScale(Math.min(box.clientWidth / pre.scrollWidth, box.clientHeight / pre.scrollHeight, 1));
+    };
+
+    const t  = setTimeout(fit, 50);
+    const ro = new ResizeObserver(fit);
+    ro.observe(box);
+    return () => { clearTimeout(t); ro.disconnect(); };
+  }, [content]);
+
   return (
-    <div className="rounded-full flex items-center justify-center font-bold font-jetbrains shrink-0"
-      style={{ width: size, height: size, background: `hsl(${hue}deg 40% 18%)`, color: `hsl(${hue}deg 70% 70%)`, fontSize: size * 0.3, boxShadow: `0 0 0 3px var(--color-bg), 0 0 0 4px hsl(${hue}deg 40% 30%)` }}>
-      {initials}
+    <div ref={boxRef} className="w-full h-full overflow-hidden flex items-center justify-center relative">
+      <pre
+        ref={preRef}
+        className="whitespace-pre font-mono leading-none text-xs text-accent-text absolute"
+        style={{ transform: `scale(${scale})` }}
+      >
+        {content}
+      </pre>
     </div>
   );
 }
 
-function StatPill({ label, value }) {
-  return (
-    <div className="flex flex-col items-center gap-0.5 px-6 py-3 rounded-xl bg-accent-bg border border-accent-text/10">
-      <span className="text-accent-text font-bold text-lg font-jetbrains">{value}</span>
-      <span className="text-main-text/40 text-[10px] uppercase tracking-widest">{label}</span>
-    </div>
-  );
-}
-
-export default function Profile({ currentUser }) {
+export default function Profile({ user }) {
   const { username } = useParams();
   const navigate = useNavigate();
 
-  const [profile, setProfile] = useState(null);
-  const [likedIds, setLikedIds] = useState([]);
-  const [posts, setPosts] = useState([]);
-  const [tab, setTab] = useState('posts');
-  const [loading, setLoading] = useState(true);
-  const [notFound, setNotFound] = useState(false);
-  const [shareCopied, setShareCopied] = useState(false);
+  const [profile,        setProfile]        = useState(null);
+  const [posts,          setPosts]          = useState([]);
+  const [likedArts,      setLikedArts]      = useState([]);
+  const [activeTab,      setActiveTab]      = useState('Overview');
+  const [loading,        setLoading]        = useState(true);
+  const [followerCount,  setFollowerCount]  = useState(0);
+  const [followingCount, setFollowingCount] = useState(0);
+  const [notFound,       setNotFound]       = useState(false);
 
-  const isOwn = currentUser && profile && currentUser.id === profile.id;
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    setLoading(true); setNotFound(false); setProfile(null); setLikedIds([]); setPosts([]);
+    supabase.auth.getUser().then(({ data }) => {
+      setCurrentUser(data.user);
+    });
+  }, []);
 
-    supabase
-      .from('profiles')
-      .select('id, username, display_name, avatar_url, bio, location, website, created_at')
-      .eq('username', username)
-      .single()
-      .then(({ data, error }) => {
-        if (error || !data) { setNotFound(true); setLoading(false); return; }
-        setProfile(data);
+  const isOwn = profile?.id === currentUser?.id;
 
-        // likes
-        supabase.from('art_likes').select('art_id').eq('user_id', data.id)
-          .then(({ data: likes }) => setLikedIds(likes?.map(l => l.art_id) ?? []));
+  useEffect(() => {
+    async function load() {
+      setLoading(true);
+      setNotFound(false);
 
-        // posts
-        supabase.from('posts')
-          .select('*, profiles(username, avatar_url, display_name)')
-          .eq('user_id', data.id)
-          .eq('is_public', true)
-          .order('created_at', { ascending: false })
-          .then(({ data: p }) => { setPosts(p ?? []); setLoading(false); });
-      });
+      const { data: prof, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('username', username)
+        .single();
+
+      if (error || !prof) {
+        setNotFound(true);
+        setLoading(false);
+        return;
+      }
+
+      setProfile(prof);
+
+      const { data: userPosts } = await supabase
+        .from('posts')
+        .select('*, post_views(views)')
+        .eq('user_id', prof.id)
+        .eq('is_public', true)
+        .order('created_at', { ascending: false });
+      setPosts(userPosts || []);
+
+      const { data: likes } = await supabase
+        .from('art_likes')
+        .select('art_id')
+        .eq('user_id', prof.id);
+      setLikedArts(likes || []);
+
+      setLoading(false);
+    }
+    load();
   }, [username]);
 
-  function shareProfile() {
-    navigator.clipboard.writeText(`${window.location.origin}/u/${username}`);
-    setShareCopied(true);
-    setTimeout(() => setShareCopied(false), 2000);
+  function bannerGradient(uname) {
+    let hash = 0;
+    for (let i = 0; i < (uname || '').length; i++) hash = uname.charCodeAt(i) + ((hash << 5) - hash);
+    const h1 = Math.abs(hash) % 360;
+    const h2 = (h1 + 40) % 360;
+    return `linear-gradient(135deg, hsl(${h1},30%,12%) 0%, hsl(${h2},25%,16%) 100%)`;
   }
 
-  const likedArts = asciiFile.ascii.filter(a => likedIds.includes(a.id));
-  const joinedDate = profile ? new Date(profile.created_at).toLocaleDateString('en-GB', { year: 'numeric', month: 'long' }) : '';
-
   if (loading) return (
-    <div className="min-h-[60vh] flex items-center justify-center">
-      <p className="text-main-text/40 text-sm font-jetbrains animate-pulse">loading...</p>
+    <div className="flex items-center justify-center min-h-[60vh] text-main-text font-jetbrains text-sm">
+      loading...
     </div>
   );
 
   if (notFound) return (
-    <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
-      <p className="text-accent-text font-bold text-3xl font-jetbrains">@{username}</p>
-      <p className="text-main-text/40 text-sm">this user doesn't exist</p>
-      <button onClick={() => navigate('/ascii')} className="text-xs text-accent-text/40 hover:text-accent-text transition underline mt-2">← back to gallery</button>
+    <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4 text-main-text font-grotesk">
+      <p className="text-accent-text text-xl font-bold">user not found</p>
+      <p className="text-sm">@{username} doesn't exist.</p>
     </div>
   );
 
-  return (
-    <div className="bg-bg min-h-screen">
-      <div className="w-full h-40 md:h-52" style={bannerStyle(profile.username)} />
+  const recentPosts = posts.slice(0, 2);
+  const pinnedPost  = posts[0] || null;
 
-      <div className="px-6 md:px-12">
-        <div className="container mx-auto">
-          <div className="flex items-end justify-between -mt-10 mb-5 flex-wrap gap-3">
-            <Avatar profile={profile} size={80} />
-            <div className="flex gap-2 items-center mb-1">
-              <button
-                onClick={shareProfile}
-                className="text-xs px-4 py-2 rounded-xl border border-accent-text/20 text-accent-text hover:border-accent-text/50 transition-all font-jetbrains"
-              >
-                {shareCopied ? '✓ copied' : 'share'}
-              </button>
+  return (
+    <div className="bg-bg min-h-screen font-grotesk">
+      <div className="container mx-auto px-6 md:px-12 py-8 max-w-[1200px]">
+
+        {/* profile card */}
+        <div className="bg-area border border-area-border rounded-2xl overflow-hidden mb-1">
+
+          {/* banner */}
+          <div
+            className="h-[160px] w-full"
+            style={
+              profile.banner_url
+                ? { backgroundImage: `url(${profile.banner_url})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+                : { background: bannerGradient(profile.username) }
+            }
+          />
+
+          {/* avatar + button row */}
+          <div className="px-6 relative">
+            <div className="absolute -top-[45px] left-6 w-[90px] h-[90px] rounded-full bg-accent-bg border-4 border-area overflow-hidden flex items-center justify-center">
+              {profile.avatar_url
+                ? <img src={profile.avatar_url} alt="avatar" className="w-full h-full object-cover" />
+                : <span className="text-accent-text font-bold font-jetbrains text-xl">
+                    {profile.username?.slice(0, 2).toUpperCase()}
+                  </span>
+              }
+            </div>
+
+            <div className="flex justify-end pt-3 pb-4">
               {isOwn && (
-                <>
-                  <button
-                    onClick={() => navigate('/post/new')}
-                    className="text-xs px-4 py-2 rounded-xl bg-get-started-bg text-get-started-text font-bold hover:opacity-80 transition font-jetbrains"
-                  >
-                    + post
-                  </button>
-                  <button
-                    onClick={() => navigate('/edit-profile')}
-                    className="text-xs px-4 py-2 rounded-xl border border-accent-text/20 text-accent-text hover:border-accent-text/50 transition-all font-jetbrains"
-                  >
-                    edit profile
-                  </button>
-                </>
+                <button
+                  onClick={() => navigate('/edit-profile')}
+                  className="border border-area-border rounded-xl px-4 py-1.5 text-sm text-accent-text hover:bg-button-bg transition-colors"
+                >
+                  edit profile
+                </button>
               )}
             </div>
           </div>
 
-          <div className="mb-6 flex flex-col gap-1">
-            {profile.display_name && (
-              <h1 className="text-accent-text font-bold text-xl font-jetbrains leading-tight">{profile.display_name}</h1>
-            )}
-            <p className={`font-jetbrains ${profile.display_name ? 'text-main-text/50 text-sm' : 'text-accent-text font-bold text-xl'}`}>
-              @{profile.username}
-            </p>
-            {profile.bio && <p className="text-main-text/70 text-sm mt-2 max-w-md leading-relaxed">{profile.bio}</p>}
+          {/* info */}
+          <div className="px-6 pb-5 mt-6">
+            <h1 className="text-accent-text font-bold text-xl leading-7">
+              {profile.display_name || profile.username}
+            </h1>
+            <p className="text-main-text text-sm mt-0.5">@{profile.username}</p>
 
-            <div className="flex flex-wrap gap-4 mt-2">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2 text-main-text text-xs">
               {profile.location && (
-                <span className="flex items-center gap-1.5 text-xs text-main-text/40">
-                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
-                  </svg>
-                  {profile.location}
-                </span>
+                <span>{profile.location}</span>
               )}
+              {profile.location && profile.website && <span>·</span>}
               {profile.website && (
-                <a href={profile.website.startsWith('http') ? profile.website : `https://${profile.website}`}
-                  target="_blank" rel="noreferrer"
-                  className="flex items-center gap-1.5 text-xs text-accent-text/60 hover:text-accent-text transition">
-                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" />
-                    <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" />
-                  </svg>
+                <a
+                  href={profile.website}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-accent-text transition-colors"
+                >
                   {profile.website.replace(/^https?:\/\//, '')}
                 </a>
               )}
-              <span className="flex items-center gap-1.5 text-xs text-main-text/30">
-                <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                  <line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
-                </svg>
-                joined {joinedDate}
-              </span>
+              {(profile.location || profile.website) && profile.created_at && <span>·</span>}
+              {profile.created_at && (
+                <span>joined {joinedDate(profile.created_at)}</span>
+              )}
+            </div>
+
+            {profile.bio && (
+              <p className="text-main-text text-sm mt-3">{profile.bio}</p>
+            )}
+
+            {/* stats pills */}
+            <div className="flex flex-wrap gap-2 mt-4">
+              {[
+                { label: 'Followers',  value: followerCount },
+                { label: 'Following',  value: followingCount },
+                { label: 'Arts Liked', value: likedArts.length },
+                { label: 'Posts',      value: posts.length },
+              ].map(({ label, value }) => (
+                <div key={label} className="bg-[#171717] border border-[#322c2a] rounded-full px-4 py-1 text-sm text-accent-text">
+                  <span className="font-bold">{value}</span>
+                  <span className="font-normal text-main-text"> {label}</span>
+                </div>
+              ))}
             </div>
           </div>
-
-          <div className="flex gap-3 mb-8">
-            <StatPill label="posts" value={posts.length} />
-            <StatPill label="liked" value={likedIds.length} />
-          </div>
-
-          {/* tabs */}
-          <div className="flex gap-1 bg-accent-bg border border-button-stroke rounded-xl p-1 mb-8 w-fit">
-            {['posts', 'liked'].map(t => (
-              <button key={t} onClick={() => setTab(t)}
-                className={`px-6 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${tab === t ? 'bg-get-started-bg text-get-started-text shadow-sm ring-1 ring-black/20' : 'text-main-text hover:text-accent-text'}`}>
-                {t}
-              </button>
-            ))}
-          </div>
-
-          <div className="border-t border-accent-text/10 mb-8" />
-
-          <div className="pb-24">
-            {tab === 'posts' && (
-              <>
-                {posts.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-24 gap-3">
-                    <p className="text-5xl opacity-10 select-none">◇</p>
-                    <p className="text-main-text/30 text-sm">{isOwn ? "you haven't posted anything yet" : 'no posts yet'}</p>
-                    {isOwn && (
-                      <button onClick={() => navigate('/post/new')}
-                        className="text-xs text-accent-text/40 hover:text-accent-text transition underline mt-1">
-                        create your first post →
-                      </button>
-                    )}
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {posts.map(p => <PostCard key={p.id} post={p} />)}
-                  </div>
-                )}
-              </>
-            )}
-
-            {tab === 'liked' && (
-              <>
-                {likedArts.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-24 gap-3">
-                    <p className="text-5xl opacity-10 select-none">◇</p>
-                    <p className="text-main-text/30 text-sm">{isOwn ? "you haven't liked anything yet" : 'no liked art yet'}</p>
-                    {isOwn && (
-                      <button onClick={() => navigate('/ascii')}
-                        className="text-xs text-accent-text/40 hover:text-accent-text transition underline mt-1">
-                        browse the gallery →
-                      </button>
-                    )}
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {likedArts.map(item => <AsciiCard key={item.id} item={item} user={currentUser} onOpenLogin={() => {}} />)}
-                  </div>
-                )}
-              </>
-            )}
-          </div>
         </div>
+
+        {/* tabs */}
+        <div className="border-b border-area-border flex gap-6 mb-6">
+          {TABS.map(tab => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`py-3 text-sm font-medium relative transition-colors ${
+                activeTab === tab ? 'text-accent-text' : 'text-main-text hover:text-accent-text'
+              }`}
+            >
+              {tab}
+              {activeTab === tab && (
+                <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-accent-text rounded-full" />
+              )}
+            </button>
+          ))}
+        </div>
+
+        {/* overview tab */}
+        {activeTab === 'Overview' && (
+          <div className="flex gap-5 items-start">
+            <div className="flex-1 min-w-0 flex flex-col gap-5">
+
+              {/* pinned post */}
+              <div className="bg-area border border-area-border rounded-2xl p-5">
+                <h2 className="text-accent-text font-bold text-base mb-4">Pinned Post</h2>
+                {pinnedPost
+                  ? (
+                    <Link to={`/post/${pinnedPost.id}`} className="flex gap-5 group">
+                      <div className="w-[260px] h-[200px] flex-shrink-0 bg-accent-bg border border-area-border rounded-xl overflow-hidden">
+                        <AsciiMiniCard content={pinnedPost.content} />
+                      </div>
+                      <div className="flex flex-col justify-center gap-2">
+                        <p className="text-accent-text font-medium group-hover:underline">{pinnedPost.title}</p>
+                        {pinnedPost.description && (
+                          <p className="text-main-text text-sm line-clamp-2">{pinnedPost.description}</p>
+                        )}
+                        <p className="text-main-text text-xs">{timeAgo(pinnedPost.created_at)}</p>
+                      </div>
+                    </Link>
+                  )
+                  : (
+                    <div className="w-[260px] h-[200px] bg-accent-bg border border-area-border rounded-xl flex items-center justify-center text-main-text text-sm">
+                      no posts yet
+                    </div>
+                  )
+                }
+              </div>
+
+              {/* recently liked */}
+              <div>
+                <h2 className="text-accent-text font-bold text-base mb-3">Recently Liked</h2>
+                <div className="flex gap-3">
+                  {likedArts.length > 0
+                    ? likedArts.slice(0, 4).map(like => (
+                        <div key={like.art_id} className="w-[120px] h-[90px] bg-accent-bg border border-area-border rounded-xl flex items-center justify-center text-main-text text-xs">
+                          {like.art_id}
+                        </div>
+                      ))
+                    : [0,1,2,3].map(i => (
+                        <div key={i} className="w-[120px] h-[90px] bg-accent-bg border border-area-border rounded-xl" />
+                      ))
+                  }
+                </div>
+              </div>
+
+              {/* recent posts */}
+              <div>
+                <h2 className="text-accent-text font-bold text-base mb-3">Recent Posts</h2>
+                <div className="flex gap-4">
+                  {recentPosts.length > 0
+                    ? recentPosts.map(post => (
+                        <Link
+                          key={post.id}
+                          to={`/post/${post.id}`}
+                          className="flex-1 h-[160px] bg-accent-bg border border-area-border rounded-xl overflow-hidden hover:border-main-text transition-colors"
+                        >
+                          <AsciiMiniCard content={post.content} />
+                        </Link>
+                      ))
+                    : [0,1].map(i => (
+                        <div key={i} className="flex-1 h-[160px] bg-accent-bg border border-area-border rounded-xl" />
+                      ))
+                  }
+                </div>
+              </div>
+            </div>
+
+            {/* right sidebar */}
+            <div className="w-[220px] flex-shrink-0 flex flex-col gap-3">
+
+              <div className="bg-area border border-area-border rounded-2xl p-5">
+                <div className="flex flex-col gap-1 mb-3">
+                  <p className="text-accent-text text-lg">
+                    <span className="font-bold">{followerCount}</span>
+                    <span className="text-base font-normal text-main-text"> Followers</span>
+                  </p>
+                  <p className="text-accent-text text-lg">
+                    <span className="font-bold">{followingCount}</span>
+                    <span className="text-base font-normal text-main-text"> Following</span>
+                  </p>
+                </div>
+                {profile.created_at && (
+                  <p className="text-main-text text-sm">
+                    joined {joinedDate(profile.created_at)}
+                  </p>
+                )}
+              </div>
+
+              <div className="bg-area border border-area-border rounded-2xl p-5">
+                <h3 className="text-accent-text font-bold text-base mb-3">Achievements</h3>
+                <div className="flex flex-col gap-1 text-main-text text-sm">
+                  <p>—</p>
+                  <p>—</p>
+                  <p>—</p>
+                </div>
+              </div>
+
+              {profile.website && (
+                <div className="bg-area border border-area-border rounded-2xl p-5">
+                  <a
+                    href={profile.website}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-accent-text text-sm hover:underline"
+                  >
+                    {profile.website.replace(/^https?:\/\//, '')}
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* posts tab */}
+        {activeTab === 'Posts' && (
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {posts.length > 0
+              ? posts.map(post => (
+                  <Link
+                    key={post.id}
+                    to={`/post/${post.id}`}
+                    className="h-[200px] bg-accent-bg border border-area-border rounded-xl overflow-hidden hover:border-main-text transition-colors"
+                  >
+                    <AsciiMiniCard content={post.content} />
+                  </Link>
+                ))
+              : <p className="text-main-text text-sm col-span-3">no posts yet.</p>
+            }
+          </div>
+        )}
+
+        {/* liked tab */}
+        {activeTab === 'Liked' && (
+          <div>
+            {likedArts.length > 0
+              ? <p className="text-main-text text-sm">{likedArts.length} liked arts</p>
+              : <p className="text-main-text text-sm">no liked arts yet.</p>
+            }
+          </div>
+        )}
+
+        {/* following / followers tabs */}
+        {(activeTab === 'Following' || activeTab === 'Followers') && (
+          <p className="text-main-text text-sm">coming soon.</p>
+        )}
+
       </div>
     </div>
   );
