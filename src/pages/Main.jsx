@@ -44,10 +44,8 @@ function Main() {
     const pre = preRef.current;
     const box = boxRef.current;
     if (!pre || !box) return;
-
     const fit = () => {
       if (!pre.scrollWidth || !pre.scrollHeight) return;
-
       setScale(
         Math.min(
           box.clientWidth / pre.scrollWidth,
@@ -56,13 +54,11 @@ function Main() {
         ),
       );
     };
-
-    const raf = requestAnimationFrame(fit);
+    const t = setTimeout(fit, 50);
     const ro = new ResizeObserver(fit);
     ro.observe(box);
-
     return () => {
-      cancelAnimationFrame(raf);
+      clearTimeout(t);
       ro.disconnect();
     };
   }, [ascii]);
@@ -71,9 +67,9 @@ function Main() {
     <section className="flex justify-center bg-bg px-6 md:px-12 ">
       <div className="container">
         <div>
-          <div className="font-jetbrains text-accent-text py-20 flex gap-10">
+          <div className="font-jetbrains flex-col text-accent-text py-10 md:py-20 sm:flex-row flex gap-10 flex-wrap">
             <div className="flex-3">
-              <h1 className="text-8xl font-black ">
+              <h1 className="text-4xl sm:text-6xl md:text-8xl font-black ">
                 Customize
                 <br />
                 Your Fastfetch, <br />
@@ -82,19 +78,21 @@ function Main() {
                 </span>
               </h1>
 
-              <h2 className=" text-3xl py-5">
+              <h2 className="text-xl sm:text-3xl py-5">
                 Build a terminal that feels like{' '}
                 <span className="bg-gradient-to-r from-[#FFFFFF]/35 to-[#252525] bg-clip-text text-transparent">
                   yours!
                 </span>
               </h2>
 
-              <p className="text-main-text text-lg">
-                Tweak logos, colors, layout, and modules all in one place.
+              <p className="text-main-text text-sm sm:text-lg">
+                Tweak logos, colors, layout, and modules all in one place. Built
+                for developers who care about how their terminal looks and
+                feels.
               </p>
             </div>
 
-            <div className="bg-area border border-area-border flex-2 rounded-2xl p-5 shadow-[0_0_20px_rgba(181,181,181,0.2)]">
+            <div className="bg-area border border-area-border flex-2 md:min-w-[400px] rounded-2xl p-5 shadow-[0_0_20px_rgba(181,181,181,0.2)]">
               <div className="flex items-center">
                 <ul className="flex gap-2">
                   <li className="w-3 h-3 bg-reverse/30 rounded-2xl"></li>
@@ -102,21 +100,20 @@ function Main() {
                   <li className="w-3 h-3 bg-reverse/10 rounded-2xl"></li>
                 </ul>
                 <div className="flex justify-between text-main-text pl-5 w-full text-sm">
-                  <p>fastfetch.json</p>
+                  <p className="hidden sm:block">fastfetch.json</p>
                   <p>popular ASCII...</p>
                 </div>
               </div>
 
               <div
                 ref={boxRef}
-                className="h-[400px] relative overflow-hidden flex items-center justify-center"
+                className="h-[400px] py-2 relative overflow-hidden flex items-center justify-center"
               >
                 <pre
                   ref={preRef}
-                  className="whitespace-pre font-mono leading-none text-sm"
+                  className="whitespace-pre font-mono leading-none text-sm overflow-hidden text-accent-text absolute"
                   style={{
                     transform: `scale(${scale})`,
-                    transformOrigin: 'center',
                   }}
                 >
                   {ascii}
