@@ -33,15 +33,11 @@ function Initials({ username, size = 80 }) {
   );
 }
 
-// field 
-
 function Field({ label, value, onChange, multiline, readOnly, prefix, placeholder, maxLength, hint }) {
   const [focused, setFocused] = useState(false);
 
   const inputCls = `w-full bg-[#1a1a1a] border rounded-xl px-3 py-2.5 text-sm text-accent-text placeholder:text-[#4a4542] outline-none resize-none transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed ${
-    focused
-      ? 'border-[#78736d]'
-      : 'border-[#2c2726] hover:border-[#3a3432]'
+    focused ? 'border-[#78736d]' : 'border-[#2c2726] hover:border-[#3a3432]'
   }`;
 
   const shared = {
@@ -51,7 +47,7 @@ function Field({ label, value, onChange, multiline, readOnly, prefix, placeholde
   };
 
   return (
-    <div className={`bg-[#141414] border rounded-2xl px-5 pt-4 pb-5 transition-all duration-150 ${
+    <div className={`bg-[#141414] border rounded-2xl px-4 sm:px-5 pt-4 pb-5 transition-all duration-150 ${
       focused ? 'border-[#3a3432]' : 'border-[#2c2726]'
     }`}>
       <div className="flex items-center justify-between mb-3">
@@ -115,11 +111,9 @@ function Field({ label, value, onChange, multiline, readOnly, prefix, placeholde
   );
 }
 
-// toast
-
 function Toast({ message, type = 'success' }) {
   return (
-    <div className={`fixed bottom-6 right-6 px-4 py-3 rounded-xl text-sm font-medium shadow-xl z-50 flex items-center gap-2 transition-all duration-300 ${
+    <div className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 px-4 py-3 rounded-xl text-sm font-medium shadow-xl z-50 flex items-center gap-2 transition-all duration-300 max-w-[calc(100vw-2rem)] ${
       type === 'error'
         ? 'bg-red-900/80 border border-red-700/50 text-red-200'
         : 'bg-[#1f1f1f] border border-[#2c2726] text-accent-text'
@@ -129,8 +123,6 @@ function Toast({ message, type = 'success' }) {
     </div>
   );
 }
-
-// main
 
 export default function EditProfile({ user }) {
   const navigate = useNavigate();
@@ -145,14 +137,15 @@ export default function EditProfile({ user }) {
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [avatarRemoved, setAvatarRemoved] = useState(false);
 
-  const [loading,  setLoading]  = useState(false);
-  const [toast,    setToast]    = useState(null);
-
-  const [bannerFile, setBannerFile] = useState(null);
+  const [bannerFile,    setBannerFile]    = useState(null);
   const [bannerPreview, setBannerPreview] = useState(null);
+  const [bannerRemoved, setBannerRemoved] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+  const [toast,   setToast]   = useState(null);
 
   const bannerRef = useRef(null);
-  const fileRef = useRef(null);
+  const fileRef   = useRef(null);
 
   useEffect(() => {
     if (!user) return;
@@ -165,6 +158,7 @@ export default function EditProfile({ user }) {
         setLocation(data.location ?? '');
         setWebsite(data.website ?? '');
         setAvatarPreview(data.avatar_url ?? null);
+        setBannerPreview(data.banner_url ?? null);
       });
   }, [user]);
 
@@ -184,8 +178,8 @@ export default function EditProfile({ user }) {
   function pickBanner(e) {
     const f = e.target.files[0];
     if (!f) return;
-
     setBannerFile(f);
+    setBannerRemoved(false);
     setBannerPreview(URL.createObjectURL(f));
   }
 
@@ -195,11 +189,18 @@ export default function EditProfile({ user }) {
     setAvatarRemoved(true);
   }
 
+  function removeBanner() {
+    setBannerFile(null);
+    setBannerPreview(null);
+    setBannerRemoved(true);
+  }
+
   async function save() {
     if (!profile) return;
     setLoading(true);
 
     let avatar_url = avatarRemoved ? null : profile.avatar_url;
+    let banner_url = bannerRemoved ? null : profile.banner_url;
 
     if (avatarFile) {
       const ext  = avatarFile.name.split('.').pop();
@@ -211,18 +212,27 @@ export default function EditProfile({ user }) {
       avatar_url = urlData.publicUrl + '?t=' + Date.now();
     }
 
+    if (bannerFile) {
+      const ext  = bannerFile.name.split('.').pop();
+      const path = `${user.id}/banner.${ext}`;
+      const { error: upErr } = await supabase.storage
+        .from('avatars').upload(path, bannerFile, { upsert: true });
+      if (upErr) { showToast(upErr.message, 'error'); setLoading(false); return; }
+      const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(path);
+      banner_url = urlData.publicUrl + '?t=' + Date.now();
+    }
+
     const { error: saveErr } = await supabase.from('profiles').update({
       display_name: displayName.trim() || null,
       bio:          bio.trim()         || null,
       location:     location.trim()    || null,
       website:      website.trim()     || null,
       avatar_url,
+      banner_url,
     }).eq('id', user.id);
 
     setLoading(false);
-
     if (saveErr) { showToast(saveErr.message, 'error'); return; }
-
     showToast('profile saved!');
     setTimeout(() => navigate(`/u/${profile.username}`), 800);
   }
@@ -237,10 +247,11 @@ export default function EditProfile({ user }) {
 
   return (
     <div className="bg-bg min-h-screen font-grotesk">
-      <div className="max-w-[840px] mx-auto px-4 py-10 flex flex-col gap-3">
+      <div className="max-w-[840px] mx-auto px-3 sm:px-4 py-6 sm:py-10 flex flex-col gap-3">
+
         <button
           onClick={() => navigate(`/u/${profile.username}`)}
-          className="flex items-center gap-2 text-accent-text font-bold text-lg mb-6 hover:opacity-70 transition-opacity w-fit group"
+          className="flex items-center gap-2 text-accent-text font-bold text-lg mb-4 sm:mb-6 hover:opacity-70 transition-opacity w-fit group"
         >
           <svg className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform duration-150" viewBox="0 0 20 20" fill="none">
             <path d="M12 4L6 10L12 16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
@@ -248,52 +259,54 @@ export default function EditProfile({ user }) {
           account
         </button>
 
-        {/* banner + avatar (mistik  ya be ponyal kak sdelat banner) the addition and savingf to db itself*/}
+        {/* banner + avatar */}
         <div className="bg-[#141414] border border-[#2c2726] rounded-2xl overflow-hidden relative mb-2">
-          {/* banner */}
           <div
-            className="h-36 w-full cursor-pointer relative group"
+            className="h-28 sm:h-36 w-full cursor-pointer relative group"
             onClick={() => bannerRef.current?.click()}
           >
             {bannerPreview ? (
-              <img
-                src={bannerPreview}
-                alt="banner"
-                className="w-full h-full object-cover"
-              />
+              <img src={bannerPreview} alt="banner" className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full" style={bannerStyle(profile.username)} />
             )}
-
-            {/* hover overlay */}
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
               <span className="text-white text-sm">Change banner</span>
             </div>
+            {bannerPreview && (
+              <button
+                onClick={e => { e.stopPropagation(); removeBanner(); }}
+                title="Remove banner"
+                className="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/60 border border-white/10 text-white/70 hover:text-red-400 hover:border-red-500/40 transition-all duration-150 flex items-center justify-center text-[11px] font-bold"
+              >
+                ✕
+              </button>
+            )}
           </div>
-          <div className="h-12 bg-[#141414]" />
-          <div className="absolute left-5 bottom-3">
+
+          <div className="h-10 sm:h-12 bg-[#141414]" />
+
+          <div className="absolute left-4 sm:left-5 bottom-2 sm:bottom-3">
             <div className="relative group">
-              <div className="rounded-full border-4 border-[#141414] overflow-hidden bg-[#1f1f1f] w-20 h-20 cursor-pointer"
-                onClick={() => fileRef.current?.click()}>
+              <div
+                className="rounded-full border-4 border-[#141414] overflow-hidden bg-[#1f1f1f] w-16 h-16 sm:w-20 sm:h-20 cursor-pointer"
+                onClick={() => fileRef.current?.click()}
+              >
                 {avatarPreview
                   ? <img src={avatarPreview} alt="avatar" className="w-full h-full object-cover" />
-                  : <Initials username={profile.username} size={80} />
+                  : <Initials username={profile.username} size={64} />
                 }
               </div>
-
-              {/* hover */}
               <button
                 onClick={() => fileRef.current?.click()}
                 className="absolute inset-0 rounded-full bg-black/55 opacity-0 group-hover:opacity-100 transition-opacity duration-150 flex items-center justify-center"
                 title="Change photo"
               >
-                <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                   <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
                   <circle cx="12" cy="13" r="4"/>
                 </svg>
               </button>
-
-              {/* remove*/}
               {avatarPreview && (
                 <button
                   onClick={removeAvatar}
@@ -306,62 +319,21 @@ export default function EditProfile({ user }) {
             </div>
           </div>
 
-          <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={pickFile} />
-          <input
-            ref={bannerRef}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={pickBanner}
-          />
+          <input ref={fileRef}   type="file" accept="image/*" className="hidden" onChange={pickFile} />
+          <input ref={bannerRef} type="file" accept="image/*" className="hidden" onChange={pickBanner} />
         </div>
 
-        {/* fields*/}
-        <Field
-          label="Display Name"
-          value={displayName}
-          onChange={setDisplayName}
-          placeholder="how you want to appear"
-          maxLength={50}
-        />
+        <Field label="Display Name" value={displayName} onChange={setDisplayName} placeholder="how you want to appear" maxLength={50} />
+        <Field label="Username" value={profile.username} prefix="@" readOnly />
+        <Field label="Bio" value={bio} onChange={setBio} multiline placeholder="a little something about yourself..." maxLength={BIO_MAX} />
+        <Field label="Location" value={location} onChange={setLocation} placeholder="where in the world?" />
+        <Field label="Website" value={website} onChange={setWebsite} placeholder="yoursite.com" hint="include https:// for external links" />
 
-        <Field
-          label="Username"
-          value={profile.username}
-          prefix="@"
-          readOnly
-        />
-
-        <Field
-          label="Bio"
-          value={bio}
-          onChange={setBio}
-          multiline
-          placeholder="a little something about yourself..."
-          maxLength={BIO_MAX}
-        />
-
-        <Field
-          label="Location"
-          value={location}
-          onChange={setLocation}
-          placeholder="where in the world?"
-        />
-
-        <Field
-          label="Website"
-          value={website}
-          onChange={setWebsite}
-          placeholder="yoursite.com"
-          hint="include https:// for external links"
-        />
-
-        {/*save*/}
-        <div className="flex justify-end pt-2">
+        <div className="flex justify-end sm:justify-end pt-2">
           <button
             onClick={save}
             disabled={loading}
-            className="flex items-center gap-2 bg-[#b7b7b7] hover:bg-white text-black text-sm font-medium rounded-xl px-8 py-2.5 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#b7b7b7] hover:bg-white text-black text-sm font-medium rounded-xl px-8 py-2.5 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
               <>
