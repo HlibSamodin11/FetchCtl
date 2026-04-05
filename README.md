@@ -41,17 +41,6 @@
 
 ---
 
-### Getting Started
-
-````git clone https://github.com/HlibSamodin11/FetchCtl
-cd FetchCtl
-npm install
-npm run dev
-````
-````Open http://localhost:5173 in your browser.````
-
----
-
 ### Contributing
 
 Pull requests are welcome. For major changes open an issue first.
