@@ -1,10 +1,11 @@
-import { useEffect, useState, useRef } from 'react';
-import { supabase } from '../supabaseClient';
-import ViewsCounter from '../components/ViewsCounter';
-import Stats from '../components/Stats';
+import { useEffect, useState, useRef } from "react";
+import { supabase } from "../supabaseClient";
+import ViewsCounter from "../components/ViewsCounter";
+import Stats from "../components/Stats";
+import Features from "../components/Features";
 
-function Main() {
-  const [ascii, setAscii] = useState('Loading...');
+function Main({ user }) {
+  const [ascii, setAscii] = useState("Loading...");
   const [scale, setScale] = useState(1);
 
   const preRef = useRef(null);
@@ -13,16 +14,16 @@ function Main() {
   const fetchRandomPost = async () => {
     try {
       const { count } = await supabase
-        .from('posts')
-        .select('*', { count: 'exact', head: true });
+        .from("posts")
+        .select("*", { count: "exact", head: true });
 
       if (!count) return;
 
       const randomIndex = Math.floor(Math.random() * count);
 
       const { data, error } = await supabase
-        .from('posts')
-        .select('content')
+        .from("posts")
+        .select("content")
         .range(randomIndex, randomIndex)
         .single();
 
@@ -31,7 +32,7 @@ function Main() {
       setAscii(data.content);
     } catch (err) {
       console.error(err);
-      setAscii('Error');
+      setAscii("Error");
     }
   };
 
@@ -65,7 +66,7 @@ function Main() {
   }, [ascii]);
 
   return (
-    <section className="flex justify-center bg-bg px-6 md:px-12 ">
+    <section className="flex justify-center bg-bg px-6 md:px-12 relative overflow-hidden">
       <div className="container">
         <div>
           <div className="font-jetbrains flex-col text-accent-text py-10 md:py-20 sm:flex-row flex gap-10 flex-wrap">
@@ -80,7 +81,7 @@ function Main() {
               </h1>
 
               <h2 className="text-xl sm:text-3xl py-5">
-                Build a terminal that feels like{' '}
+                Build a terminal that feels like{" "}
                 <span className="bg-gradient-to-r from-[#FFFFFF]/35 to-[#252525] bg-clip-text text-transparent">
                   yours!
                 </span>
@@ -127,9 +128,10 @@ function Main() {
           <ViewsCounter />
           Total visits (live)
         </div>
-        <div>
-          <Stats/>
-        </div>
+
+        <Stats />
+        <div className="relative left-1/2 right-1/2 -ml-[60vw] mr-[50vw] w-screen h-px bg-gradient-to-r from-transparent via-reverse/50 to-transparent" />
+        <Features user={user} />
       </div>
     </section>
   );
