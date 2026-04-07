@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { supabase } from '../supabaseClient';
 import ViewsCounter from '../components/ViewsCounter';
+import Stats from '../components/Stats';
 
 function Main() {
   const [ascii, setAscii] = useState('Loading...');
@@ -125,6 +126,9 @@ function Main() {
         <div className="flex justify-center flex-col items-center gap-2 py-10 text-main-text text-sm">
           <ViewsCounter />
           Total visits (live)
+        </div>
+        <div>
+          <Stats/>
         </div>
       </div>
     </section>
