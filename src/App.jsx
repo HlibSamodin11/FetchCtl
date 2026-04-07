@@ -45,6 +45,10 @@ function App() {
   }
 
   useEffect(() => {
+    const theme = localStorage.getItem("theme");
+    if (!theme) {
+      localStorage.setItem("theme", "dark");
+    }
     supabase.auth.getUser().then(({ data }) => {
       setUser(data.user);
       checkProfile(data.user);
